@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Bibliotheque</string>
+    <string name="title_section1">Livres</string>
+    <string name="title_section2">Mes emprunts</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Option</string>
+    <string name="title_activity_livre_usager">LivreUsagerActivity</string>
+    <string name="tv_isbn">ISBN :</string>
+    <string name="tv_auteur">Auteur :</string>
+    <string name="tv_editeur">Editeur :</string>
+    <string name="tv_annee">Annee :</string>
+    <string name="edit_titre">Titre</string>
+    <string name="edit_isbn">ISBN</string>
+    <string name="edit_auteur">Auteur</string>
+    <string name="edit_editeur">Editeur</string>
+    <string name="edit_annee">Annee</string>
+    <string name="bt_emprunt">Emprunter</string>
+    <string name="bt_rendre">Rendre</string>
+    <string name="title_activity_main">Connexion</string>
+    <string name="title_activity_main_activity_gestionnaire">Gestionnaire</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="action_example">Example action</string>
+    <string name="bt_ajout">Ajouter</string>
+
+</resources>
