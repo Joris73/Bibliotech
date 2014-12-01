@@ -36,8 +36,6 @@ public class MainActivityUsager extends Activity implements ActionBar.TabListene
      */
     ViewPager mViewPager;
 
-    static public Usager userCourant;
-    static public ArrayList<Livre> listeLivre;
     static private FragmentListeLivresUsager fragment1;
     static private FragmentListeEmpruntsUsager fragment2;
 
@@ -45,24 +43,6 @@ public class MainActivityUsager extends Activity implements ActionBar.TabListene
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_activity_usager);
-
-        listeLivre = new ArrayList<Livre>();
-        Livre livre1 = new Livre(3, 1, "Toto à la plage 3", "Toto", "Hachette", 2002, null, null);
-        Livre livre2 = new Livre(5, 1, "Toto à la plage 5", "Toto", "Hachette", 2004, null, null);
-
-        listeLivre.add(new Livre(1, 1, "Toto à la plage", "Toto", "Hachette", 2000, null, null));
-        listeLivre.add(new Livre(2, 1, "Toto à la plage 2", "Toto", "Hachette", 2001, null, null));
-        listeLivre.add(livre1);
-        listeLivre.add(new Livre(4, 1, "Toto à la plage 4", "Toto", "Hachette", 2003, null, null));
-        listeLivre.add(livre2);
-
-        userCourant = new Usager(1, "bodinj", "bodin", "joris");
-        userCourant.addEmprunt(livre1);
-        //userCourant.addEmprunt(livre2);
-
-        Usager userCourant2 = new Usager(2, "bodinj", "bodin", "joris");
-        userCourant2.addEmprunt(livre2);
-
 
         fragment1 = new FragmentListeLivresUsager(this);
         fragment2 = new FragmentListeEmpruntsUsager(this);

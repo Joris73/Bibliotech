@@ -4,6 +4,7 @@
     <string name="app_name">Bibliotheque</string>
     <string name="title_section1">Livres</string>
     <string name="title_section2">Mes emprunts</string>
+    <string name="title_add">Ajouter un livre</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Option</string>
     <string name="title_activity_livre_usager">LivreUsagerActivity</string>
@@ -24,5 +25,6 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="action_example">Example action</string>
     <string name="bt_ajout">Ajouter</string>
+    <string name="add_livre">Le livre à bien été ajouté</string>
 
 </resources>

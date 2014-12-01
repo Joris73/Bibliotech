@@ -6,7 +6,7 @@ import java.util.ArrayList;
  * Created by Joris on 18/11/2014.
  */
 public class Livre {
-    private int idOuvrage;
+    private String idOuvrage;
     private int ISBN;
     private String titre;
     private String auteur;
@@ -15,7 +15,7 @@ public class Livre {
     private String imageName;
     private Usager empruntePar;
 
-    public Livre(int idOuvrage, int ISBN, String titre, String auteur, String editeur, int annee, String imageName, Usager empruntePar) {
+    public Livre(String idOuvrage, int ISBN, String titre, String auteur, String editeur, int annee, String imageName, Usager empruntePar) {
         this.idOuvrage = idOuvrage;
         this.ISBN = ISBN;
         this.titre = titre;
@@ -26,7 +26,7 @@ public class Livre {
         this.empruntePar = empruntePar;
     }
 
-    public int getIdOuvrage() {
+    public String getIdOuvrage() {
         return idOuvrage;
     }
 
@@ -66,9 +66,9 @@ public class Livre {
         return this.empruntePar != null;
     }
 
-    static public Livre GetLivreList(ArrayList<Livre> livres, int id) {
+    static public Livre GetLivreList(ArrayList<Livre> livres, String id) {
         for (Livre l : livres) {
-            if (l.getIdOuvrage()== id) {
+            if (l.getIdOuvrage().equals(id)) {
                 return l;
             }
         }

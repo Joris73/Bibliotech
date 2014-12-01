@@ -18,6 +18,7 @@ public class Usager {
         this.loginUsager = loginUsager;
         this.nomUsager = nomUsager;
         this.prenomUsager = prenomUsager;
+        this.listeEmprunt = new ArrayList<Livre>();
     }
 
     public Usager(int idUsager, String loginUsager, String nomUsager, String prenomUsager, ArrayList<Livre> listeEmprunt) {
@@ -26,6 +27,7 @@ public class Usager {
         this.nomUsager = nomUsager;
         this.prenomUsager = prenomUsager;
         this.listeEmprunt = listeEmprunt;
+        this.listeEmprunt = new ArrayList<Livre>();
     }
 
     public int getIdUsager() {

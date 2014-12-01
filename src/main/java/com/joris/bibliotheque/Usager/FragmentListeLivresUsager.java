@@ -11,6 +11,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.joris.bibliotheque.Classes.Livre;
+import com.joris.bibliotheque.Main.MainActivity;
 import com.joris.bibliotheque.R;
 
 public class FragmentListeLivresUsager extends Fragment {
@@ -32,7 +33,7 @@ public class FragmentListeLivresUsager extends Fragment {
         super.onActivityCreated(savedInstanceState);
 
         ListView list = (ListView) getActivity().findViewById(R.id.list_view_livres_usager);
-        adapter = new LivreAdapterUsager(getActivity(), MainActivityUsager.listeLivre);
+        adapter = new LivreAdapterUsager(getActivity(), MainActivity.listeLivre);
         list.setAdapter(adapter);
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

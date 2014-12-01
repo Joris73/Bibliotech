@@ -29,7 +29,6 @@ public class MainActivityGestionnaire extends Activity
      * Used to store the last screen title. For use in {@link #restoreActionBar()}.
      */
     private CharSequence mTitle;
-    static public ArrayList<Livre> listeLivre;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,16 +43,6 @@ public class MainActivityGestionnaire extends Activity
         mNavigationDrawerFragment.setUp(
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
-
-        listeLivre = new ArrayList<Livre>();
-        Livre livre1 = new Livre(3, 1, "Toto à la plage 3", "Toto", "Hachette", 2002, null, null);
-        Livre livre2 = new Livre(5, 1, "Toto à la plage 5", "Toto", "Hachette", 2004, null, null);
-
-        listeLivre.add(new Livre(1, 1, "Toto à la plage", "Toto", "Hachette", 2000, null, null));
-        listeLivre.add(new Livre(2, 1, "Toto à la plage 2", "Toto", "Hachette", 2001, null, null));
-        listeLivre.add(livre1);
-        listeLivre.add(new Livre(4, 1, "Toto à la plage 4", "Toto", "Hachette", 2003, null, null));
-        listeLivre.add(livre2);
     }
 
     @Override
@@ -70,17 +59,6 @@ public class MainActivityGestionnaire extends Activity
                 fragmentManager.beginTransaction()
                         .replace(R.id.container, new FragmentAjoutModifLivreGestionnaire())
                         .commit();
-                break;
-        }
-    }
-
-    public void onSectionAttached(int number) {
-        switch (number) {
-            case 1:
-                mTitle = getString(R.string.title_section1);
-                break;
-            case 2:
-                mTitle = getString(R.string.title_section2);
                 break;
         }
     }

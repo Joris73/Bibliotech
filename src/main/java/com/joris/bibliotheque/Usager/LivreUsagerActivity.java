@@ -8,6 +8,8 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.joris.bibliotheque.Classes.Livre;
+import com.joris.bibliotheque.Gestionnaire.MainActivityGestionnaire;
+import com.joris.bibliotheque.Main.MainActivity;
 import com.joris.bibliotheque.R;
 
 public class LivreUsagerActivity extends Activity {
@@ -18,8 +20,8 @@ public class LivreUsagerActivity extends Activity {
         setContentView(R.layout.activity_livre_usager);
         Intent intent = getIntent();
         if (intent != null) {
-            int id = intent.getIntExtra("idLivre", 0);
-            final Livre livre = Livre.GetLivreList(MainActivityUsager.listeLivre, id);
+            String id = intent.getStringExtra("idLivre");
+            final Livre livre = Livre.GetLivreList(MainActivity.listeLivre, id);
             TextView titre = (TextView) findViewById(R.id.tvTitre);
             TextView annee = (TextView) findViewById(R.id.tv_annee);
             TextView auteur = (TextView) findViewById(R.id.tv_auteur);
@@ -34,14 +36,15 @@ public class LivreUsagerActivity extends Activity {
             isbn.setText(Integer.toString(livre.getISBN()));
 
             if (livre.isEmprunte()) {
-                if (livre.getEmpruntePar().getIdUsager() == MainActivityUsager.userCourant.getIdUsager()) {
+                if (livre.getEmpruntePar().getIdUsager() == MainActivity.userCourant.getIdUsager()) {
                     button.setText(getString(R.string.bt_rendre));
                     button.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            MainActivityUsager.userCourant.rendre(livre);
+                            MainActivity.userCourant.rendre(livre);
                             button.setVisibility(View.INVISIBLE);
                             MainActivityUsager.updateLists();
+                            finish();
                         }
                     });
                 } else {
@@ -52,9 +55,10 @@ public class LivreUsagerActivity extends Activity {
                 button.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        MainActivityUsager.userCourant.addEmprunt(livre);
+                        MainActivity.userCourant.addEmprunt(livre);
                         button.setVisibility(View.INVISIBLE);
                         MainActivityUsager.updateLists();
+                        finish();
                     }
                 });
             }

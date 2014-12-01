@@ -27,7 +27,9 @@
         android:layout_below="@+id/edit_titre_gest"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
-        android:gravity="center" />
+        android:inputType="number"
+        android:gravity="center"
+        android:singleLine="true" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -39,7 +41,8 @@
         android:layout_below="@+id/edit_isbn_gest"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
-        android:gravity="center" />
+        android:gravity="center"
+        android:singleLine="true" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -51,7 +54,8 @@
         android:layout_below="@+id/edit_auteur_gest"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
-        android:gravity="center" />
+        android:gravity="center"
+        android:singleLine="true" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -65,13 +69,14 @@
         android:inputType="number"
         android:clickable="false"
         android:text="@string/edit_annee"
-        android:gravity="center" />
+        android:gravity="center"
+        android:singleLine="true" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/activity_vertical_margin"
-        android:text="New Button"
+        android:text="@string/bt_ajout"
         android:id="@+id/bt_ajout_modif"
         android:layout_below="@+id/edit_annee_gest"
         android:layout_centerHorizontal="true" />
