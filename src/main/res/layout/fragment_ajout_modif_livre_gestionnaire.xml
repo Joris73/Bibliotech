@@ -1,83 +1,100 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.joris.bibliotheque.Gestionnaire.FragmentAjoutModifLivreGestionnaire">
+    tools:context="com.joris.bibliotheque.Gestionnaire.FragmentAjoutModifLivreGestionnaire"
+    android:orientation="vertical"
+    android:gravity="center_horizontal">
+
+    <ProgressBar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/add_progress_bar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:visibility="gone"
+        android:indeterminate="true" />
 
     <EditText
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:layout_marginTop="@dimen/activity_vertical_margin"
         android:text="@string/edit_titre"
         android:id="@+id/edit_titre_gest"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
         android:singleLine="true"
         android:gravity="center" />
 
-    <EditText
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:layout_marginTop="@dimen/activity_vertical_margin"
-        android:text="@string/edit_isbn"
-        android:id="@+id/edit_isbn_gest"
-        android:layout_below="@+id/edit_titre_gest"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:inputType="number"
-        android:gravity="center"
-        android:singleLine="true" />
+        android:orientation="horizontal"
+        android:weightSum="1">
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:text="@string/edit_isbn"
+            android:id="@+id/edit_isbn_gest"
+            android:inputType="number"
+            android:singleLine="true"
+            android:gravity="center"
+            android:layout_weight="0.99" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:text="@string/bt_scanner"
+            android:id="@+id/bt_scan_isbn" />
+    </LinearLayout>
 
     <EditText
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:layout_marginTop="@dimen/activity_vertical_margin"
         android:text="@string/edit_auteur"
         android:id="@+id/edit_auteur_gest"
-        android:layout_below="@+id/edit_isbn_gest"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:gravity="center"
-        android:singleLine="true" />
+        android:singleLine="true"
+        android:gravity="center" />
 
     <EditText
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:layout_marginTop="@dimen/activity_vertical_margin"
         android:text="@string/edit_editeur"
         android:id="@+id/edit_editeur_gest"
-        android:layout_below="@+id/edit_auteur_gest"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:gravity="center"
-        android:singleLine="true" />
+        android:singleLine="true"
+        android:gravity="center" />
 
     <EditText
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:text="@string/edit_description"
+        android:id="@+id/edit_description_gest"
+        android:gravity="center" />
+
+    <EditText
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:layout_marginTop="@dimen/activity_vertical_margin"
         android:id="@+id/edit_annee_gest"
-        android:layout_below="@+id/edit_editeur_gest"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
         android:inputType="number"
         android:clickable="false"
         android:text="@string/edit_annee"
-        android:gravity="center"
-        android:singleLine="true" />
+        android:singleLine="true"
+        android:gravity="center" />
 
     <Button
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/activity_vertical_margin"
         android:text="@string/bt_ajout"
-        android:id="@+id/bt_ajout_modif"
-        android:layout_below="@+id/edit_annee_gest"
-        android:layout_centerHorizontal="true" />
-</RelativeLayout>
+        android:id="@+id/bt_ajout_modif" />
+</LinearLayout>

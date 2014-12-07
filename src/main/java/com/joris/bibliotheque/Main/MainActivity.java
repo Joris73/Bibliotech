@@ -9,6 +9,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 
 import com.joris.bibliotheque.Classes.Livre;
 import com.joris.bibliotheque.Classes.Usager;
@@ -23,6 +24,7 @@ import com.mongodb.MongoClient;
 
 import java.net.UnknownHostException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class MainActivity extends Activity {
 
@@ -30,13 +32,24 @@ public class MainActivity extends Activity {
     private Button button_usager;
     static public ArrayList<Livre> listeLivre;
     static public Usager userCourant;
+    public static Requests request;
+    private ProgressBar progressbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
+        request = new Requests("http://192.168.0.1/Bibliotheque/api/",
+                "appli", "root");
+
+        listeLivre = new ArrayList<Livre>();
+        userCourant = new Usager(1, "bodinj", "bodin", "joris");
+
         button_gestionnaire = (Button) findViewById(R.id.bt_gestionnaire);
         button_usager = (Button) findViewById(R.id.bt_usager);
+        progressbar = (ProgressBar) findViewById(R.id.main_progress_bar);
 
         button_gestionnaire.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -56,48 +69,25 @@ public class MainActivity extends Activity {
         });
         button_usager.setVisibility(View.GONE);
 
-        listeLivre = new ArrayList<Livre>();
-        
-        userCourant = new Usager(1, "bodinj", "bodin", "joris");
+        String SQLrequest = "SELECT * "
+                + "FROM livre L "
+                + "WHERE L.deleted = 0";
 
-        /*
-        listeLivre = new ArrayList<Livre>();
-        Livre livre1 = new Livre("3", 1, "Toto à la plage 3", "Toto", "Hachette", 2002, null, null);
-        Livre livre2 = new Livre("5", 1, "Toto à la plage 5", "Toto", "Hachette", 2004, null, null);
-
-        listeLivre.add(new Livre("1", 1, "Toto à la plage", "Toto", "Hachette", 2000, null, null));
-        listeLivre.add(new Livre("2", 1, "Toto à la plage 2", "Toto", "Hachette", 2001, null, null));
-        listeLivre.add(livre1);
-        listeLivre.add(new Livre("4", 1, "Toto à la plage 4", "Toto", "Hachette", 2003, null, null));
-        listeLivre.add(livre2);
-
-        userCourant = new Usager(1, "bodinj", "bodin", "joris");
-        userCourant.addEmprunt(livre1);
-        //userCourant.addEmprunt(livre2);
-
-        Usager userCourant2 = new Usager(2, "bodinj", "bodin", "joris");
-        userCourant2.addEmprunt(livre2);*/
-
-        new mongodbTest().execute();
+        new RequestTaskAllLivre().execute(SQLrequest);
 
     }
 
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
         }
@@ -105,35 +95,59 @@ public class MainActivity extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
-    class mongodbTest extends AsyncTask<Void, Void, Void> {
+
+    class RequestTaskAllLivre extends
+            AsyncTask<String, Void, ArrayList<HashMap<String, String>>> {
 
         @Override
-        protected Void doInBackground(Void... params) {
-            try {
-                MongoClient mongoClient = new MongoClient("192.168.0.15");
-                DB db = mongoClient.getDB("test");
-                Log.wtf("OUAAAAAAAAAAA", db.getCollectionNames().toString());
-                DBCollection coll = db.getCollection("biblio");
-                DBCursor cursor = coll.find();
-                while (cursor.hasNext()) {
-                    DBObject livre = cursor.next();
-                    Double double1 = Double.parseDouble(livre.get("ISBN").toString());
-                    Double double2 = Double.parseDouble(livre.get("annee").toString());
-
-
-                    listeLivre.add(new Livre(livre.get("_id").toString(), double1.intValue(),
-                            livre.get("titre").toString(), livre.get("auteur").toString()
-                            , livre.get("editeur").toString(), double2.intValue(), null, null));
-                }
-            } catch (UnknownHostException e) {
-                Log.wtf("FUCK", e.toString());
-            }
-            return null;
+        protected ArrayList<HashMap<String, String>> doInBackground(
+                String... SQLrequest) {
+            return request.executeRequest(SQLrequest[0]);
         }
 
-        protected void onPostExecute(Void result) {
+        @Override
+        protected void onPreExecute() {
+            progressbar.setVisibility(View.VISIBLE);
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<HashMap<String, String>> response) {
+            if (response != null) {
+                listeLivre.clear();
+                Livre livre = null;
+                for (HashMap<String, String> relivre : response) {
+
+                    if (relivre.get("id_emprunteur") != null) {
+                        int idUsager = Integer.parseInt(relivre.get("id_emprunteur").toString());
+
+                        if (idUsager == userCourant.getIdUsager()) {
+                            livre = new Livre(Integer.parseInt(relivre.get("id_livre").toString()),
+                                    Long.parseLong(relivre.get("ISBN").toString()), relivre.get("titre_livre").toString(),
+                                    relivre.get("auteur_livre").toString(), relivre.get("editeur_livre").toString(),
+                                    Integer.parseInt(relivre.get("annee_livre").toString()),
+                                    relivre.get("description_livre").toString(), null, userCourant);
+                            userCourant.getListeEmprunt().add(livre);
+                        } else {
+                            livre = new Livre(Integer.parseInt(relivre.get("id_livre").toString()),
+                                    Long.parseLong(relivre.get("ISBN").toString()), relivre.get("titre_livre").toString(),
+                                    relivre.get("auteur_livre").toString(), relivre.get("editeur_livre").toString(),
+                                    Integer.parseInt(relivre.get("annee_livre").toString()),
+                                    relivre.get("description_livre").toString(), null, null);
+                        }
+                    } else {
+                        livre = new Livre(Integer.parseInt(relivre.get("id_livre").toString()),
+                                Long.parseLong(relivre.get("ISBN").toString()), relivre.get("titre_livre").toString(),
+                                relivre.get("auteur_livre").toString(), relivre.get("editeur_livre").toString(),
+                                Integer.parseInt(relivre.get("annee_livre").toString()),
+                                relivre.get("description_livre").toString(), null, null);
+                    }
+                    listeLivre.add(livre);
+                }
+
+            }
             button_gestionnaire.setVisibility(View.VISIBLE);
             button_usager.setVisibility(View.VISIBLE);
+            progressbar.setVisibility(View.GONE);
         }
     }
 }

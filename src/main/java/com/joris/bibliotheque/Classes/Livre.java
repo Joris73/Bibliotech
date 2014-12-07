@@ -6,31 +6,34 @@ import java.util.ArrayList;
  * Created by Joris on 18/11/2014.
  */
 public class Livre {
-    private String idOuvrage;
-    private int ISBN;
+    private int idLivre;
+    private long ISBN;
     private String titre;
     private String auteur;
     private String editeur;
     private int annee;
+    private String description;
     private String imageName;
     private Usager empruntePar;
 
-    public Livre(String idOuvrage, int ISBN, String titre, String auteur, String editeur, int annee, String imageName, Usager empruntePar) {
-        this.idOuvrage = idOuvrage;
+    public Livre(int idLivre, long ISBN, String titre, String auteur, String editeur,
+                 int annee, String description, String imageName, Usager empruntePar) {
+        this.idLivre = idLivre;
         this.ISBN = ISBN;
         this.titre = titre;
         this.auteur = auteur;
         this.editeur = editeur;
         this.annee = annee;
+        this.description = description;
         this.imageName = imageName;
         this.empruntePar = empruntePar;
     }
 
-    public String getIdOuvrage() {
-        return idOuvrage;
+    public int getIdLivre() {
+        return idLivre;
     }
 
-    public int getISBN() {
+    public long getISBN() {
         return ISBN;
     }
 
@@ -66,9 +69,9 @@ public class Livre {
         return this.empruntePar != null;
     }
 
-    static public Livre GetLivreList(ArrayList<Livre> livres, String id) {
+    static public Livre GetLivreList(ArrayList<Livre> livres, int id) {
         for (Livre l : livres) {
-            if (l.getIdOuvrage().equals(id)) {
+            if (l.getIdLivre() == id) {
                 return l;
             }
         }

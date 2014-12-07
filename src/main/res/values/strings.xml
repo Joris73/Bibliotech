@@ -16,6 +16,7 @@
     <string name="edit_isbn">ISBN</string>
     <string name="edit_auteur">Auteur</string>
     <string name="edit_editeur">Editeur</string>
+    <string name="edit_description">Description</string>
     <string name="edit_annee">Annee</string>
     <string name="bt_emprunt">Emprunter</string>
     <string name="bt_rendre">Rendre</string>
@@ -25,6 +26,13 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="action_example">Example action</string>
     <string name="bt_ajout">Ajouter</string>
+    <string name="bt_modifier">Modifier</string>
+    <string name="bt_scanner">Scanner</string>
     <string name="add_livre">Le livre à bien été ajouté</string>
+    <string name="probleme_bdd">Problème avec la connexion</string>
+    <string name="zxing_title">Installer Barcode Scanner ?</string>
+    <string name="zxing_message">Cette application requiert Barcode Scanner. Voulez-vous l\'installer ?</string>
+    <string name="zxing_yes">Oui</string>
+    <string name="zxing_no">Non</string>
 
 </resources>

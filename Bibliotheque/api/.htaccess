@@ -1,0 +1,4 @@
+AuthUserFile C:\wamp\www\Bibliotheque\api\.htpasswd
+AuthName "L'acces a ce repertoire est securisé."
+AuthType Basic
+Require valid-user

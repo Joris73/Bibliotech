@@ -42,7 +42,7 @@ public class FragmentListeEmpruntsUsager extends Fragment {
                                     long arg3) {
                 Livre livre = (Livre) v.getTag();
                 Intent intent = new Intent(getActivity(), LivreUsagerActivity.class);
-                intent.putExtra("idLivre", livre.getIdOuvrage());
+                intent.putExtra("idLivre", livre.getIdLivre());
                 startActivity(intent);
             }
         });
