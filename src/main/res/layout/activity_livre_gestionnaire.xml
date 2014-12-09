@@ -6,7 +6,7 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context="com.joris.bibliotheque.Usager.LivreUsagerActivity">
+    tools:context="com.joris.bibliotheque.Gestionnaire.LivreGestionnaireActivity">
 
     <ProgressBar
         android:layout_width="match_parent"
@@ -24,7 +24,7 @@
         android:layout_centerHorizontal="true"
         android:layout_below="@+id/qui_progress_bar"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:id="@+id/tv_titre_usager"
+        android:id="@+id/tv_titre_gestionnaire"
         android:layout_marginBottom="20dp" />
 
     <TextView
@@ -32,8 +32,8 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="@string/tv_isbn"
-        android:id="@+id/tv1_usager"
-        android:layout_below="@+id/tv_titre_usager"
+        android:id="@+id/tv1_gestionnaire"
+        android:layout_below="@+id/tv_titre_gestionnaire"
         android:layout_alignParentStart="true" />
 
     <TextView
@@ -41,17 +41,17 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Medium Text"
-        android:id="@+id/tv_isbn_usager"
-        android:layout_below="@+id/tv_titre_usager"
-        android:layout_toEndOf="@+id/tv1_usager" />
+        android:id="@+id/tv_isbn_gestionnaire"
+        android:layout_below="@+id/tv_titre_gestionnaire"
+        android:layout_toEndOf="@+id/tv1_gestionnaire" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="@string/tv_auteur"
-        android:id="@+id/tv2_usager"
-        android:layout_below="@+id/tv1_usager"
+        android:id="@+id/tv2_gestionnaire"
+        android:layout_below="@+id/tv1_gestionnaire"
         android:layout_alignParentStart="true" />
 
     <TextView
@@ -59,17 +59,17 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Medium Text"
-        android:id="@+id/tv_auteur_usager"
-        android:layout_below="@+id/tv_isbn_usager"
-        android:layout_toEndOf="@+id/tv2_usager" />
+        android:id="@+id/tv_auteur_gestionnaire"
+        android:layout_below="@+id/tv_isbn_gestionnaire"
+        android:layout_toEndOf="@+id/tv2_gestionnaire" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="@string/tv_editeur"
-        android:id="@+id/tv3_usager"
-        android:layout_below="@+id/tv2_usager"
+        android:id="@+id/tv3_gestionnaire"
+        android:layout_below="@+id/tv2_gestionnaire"
         android:layout_alignParentStart="true" />
 
     <TextView
@@ -77,17 +77,17 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Medium Text"
-        android:id="@+id/tv_editeur_usager"
-        android:layout_below="@+id/tv_auteur_usager"
-        android:layout_toEndOf="@+id/tv3_usager" />
+        android:id="@+id/tv_editeur_gestionnaire"
+        android:layout_below="@+id/tv_auteur_gestionnaire"
+        android:layout_toEndOf="@+id/tv3_gestionnaire" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="@string/tv_annee"
-        android:id="@+id/tv4_usager"
-        android:layout_below="@+id/tv3_usager"
+        android:id="@+id/tv4_gestionnaire"
+        android:layout_below="@+id/tv3_gestionnaire"
         android:layout_alignParentStart="true" />
 
     <TextView
@@ -95,17 +95,51 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Medium Text"
-        android:id="@+id/tv_annee_usager"
-        android:layout_below="@+id/tv_editeur_usager"
-        android:layout_toEndOf="@+id/tv4_usager" />
+        android:id="@+id/tv_annee_gestionnaire"
+        android:layout_below="@+id/tv_editeur_gestionnaire"
+        android:layout_toEndOf="@+id/tv4_gestionnaire" />
 
-    <Button
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="New Button"
-        android:id="@+id/btEmpRend"
-        android:layout_below="@+id/tv_annee_usager"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="@string/tv_emprunter_par"
+        android:id="@+id/tv5_gestionnaire"
+        android:layout_below="@+id/tv4_gestionnaire"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Medium Text"
+        android:id="@+id/tv_emprunter_par_gestionnaire"
+        android:layout_below="@+id/tv_annee_gestionnaire"
+        android:layout_toEndOf="@+id/tv5_gestionnaire" />
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:orientation="horizontal"
+        android:layout_below="@+id/tv_emprunter_par_gestionnaire"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="42dp" />
+        android:weightSum="1">
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.50"
+            android:text="@string/bt_modifier"
+            android:id="@+id/bt_modifier"/>
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.50"
+            android:text="@string/bt_supprimer"
+            android:id="@+id/bt_supprimer"/>
+    </LinearLayout>
 
 </RelativeLayout>

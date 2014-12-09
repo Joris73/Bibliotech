@@ -31,12 +31,12 @@ public class LivreUsagerActivity extends Activity {
         if (intent != null) {
             int id = intent.getIntExtra("idLivre", 0);
             livre = Livre.GetLivreList(MainActivity.listeLivre, id);
-            progressbar = (ProgressBar) findViewById(R.id.emprunt_progress_bar);
-            TextView titre = (TextView) findViewById(R.id.tvTitre);
-            TextView annee = (TextView) findViewById(R.id.tv_annee);
-            TextView auteur = (TextView) findViewById(R.id.tv_auteur);
-            TextView editeur = (TextView) findViewById(R.id.tv_editeur);
-            TextView isbn = (TextView) findViewById(R.id.tv_isbn);
+            progressbar = (ProgressBar) findViewById(R.id.qui_progress_bar);
+            TextView titre = (TextView) findViewById(R.id.tv_titre_usager);
+            TextView annee = (TextView) findViewById(R.id.tv_annee_usager);
+            TextView auteur = (TextView) findViewById(R.id.tv_auteur_usager);
+            TextView editeur = (TextView) findViewById(R.id.tv_editeur_usager);
+            TextView isbn = (TextView) findViewById(R.id.tv_isbn_usager);
             button = (Button) findViewById(R.id.btEmpRend);
 
             titre.setText(livre.getTitre());

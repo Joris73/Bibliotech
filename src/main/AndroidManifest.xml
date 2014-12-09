@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.joris.bibliotheque" >
 
+    <uses-permission android:name="android.permission.INTERNET"/>
+
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
@@ -29,7 +31,15 @@
             android:parentActivityName="com.joris.bibliotheque.Usager.MainActivityUsager" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.joris.bibliotheque.Controleurs.MainActivityUsager" />
+                android:value="com.joris.bibliotheque.Usager.MainActivityUsager" />
+        </activity>
+        <activity
+            android:name="com.joris.bibliotheque.Gestionnaire.LivreGestionnaireActivity"
+            android:label="@string/title_activity_livre_gestionaire"
+            android:parentActivityName="com.joris.bibliotheque.Gestionnaire.MainActivityGestionnaire" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.joris.bibliotheque.Gestionnaire.LivreGestionnaireActivity" />
         </activity>
         <activity
             android:name="com.joris.bibliotheque.Gestionnaire.MainActivityGestionnaire"
@@ -40,7 +50,5 @@
                 android:value="com.joris.bibliotheque.Main.MainActivity" />
         </activity>
     </application>
-
-    <uses-permission android:name="android.permission.INTERNET"/>
 
 </manifest>

@@ -1,5 +1,6 @@
 package com.joris.bibliotheque.Gestionnaire;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -42,7 +43,7 @@ public class LivreAdapterGestionnaire extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         View vi = convertView;
         if (convertView == null)
-            vi = inflater.inflate(R.layout.listview_livre_gestionnaire_item, null);
+            vi = inflater.inflate(R.layout.listview_livre_gestionnaire_item, parent);
 
         Livre livre = listeLivre.get(position);
 

@@ -16,13 +16,7 @@ import com.joris.bibliotheque.Classes.Usager;
 import com.joris.bibliotheque.Gestionnaire.MainActivityGestionnaire;
 import com.joris.bibliotheque.R;
 import com.joris.bibliotheque.Usager.MainActivityUsager;
-import com.mongodb.DB;
-import com.mongodb.DBCollection;
-import com.mongodb.DBCursor;
-import com.mongodb.DBObject;
-import com.mongodb.MongoClient;
 
-import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -114,8 +108,12 @@ public class MainActivity extends Activity {
         protected void onPostExecute(ArrayList<HashMap<String, String>> response) {
             if (response != null) {
                 listeLivre.clear();
-                Livre livre = null;
+                Livre livre;
                 for (HashMap<String, String> relivre : response) {
+
+                    Log.wtf("Test", relivre.get("titre_livre"));
+                    Log.wtf("Test", relivre.get("titre_livre").toString());
+
 
                     if (relivre.get("id_emprunteur") != null) {
                         int idUsager = Integer.parseInt(relivre.get("id_emprunteur").toString());

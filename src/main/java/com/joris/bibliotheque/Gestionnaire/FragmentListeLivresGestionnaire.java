@@ -42,7 +42,7 @@ public class FragmentListeLivresGestionnaire extends Fragment {
             public void onItemClick(AdapterView<?> arg0, View v, int position,
                                     long arg3) {
                 Livre livre = (Livre) v.getTag();
-                Intent intent = new Intent(getActivity(), LivreUsagerActivity.class);
+                Intent intent = new Intent(getActivity(), LivreGestionnaireActivity.class);
                 intent.putExtra("idLivre", livre.getIdLivre());
                 startActivity(intent);
             }

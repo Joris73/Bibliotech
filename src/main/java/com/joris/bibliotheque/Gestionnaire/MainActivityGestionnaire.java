@@ -2,20 +2,13 @@ package com.joris.bibliotheque.Gestionnaire;
 
 import android.app.ActionBar;
 import android.app.Activity;
-import android.app.Fragment;
 import android.app.FragmentManager;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
 
-import com.joris.bibliotheque.Classes.Livre;
 import com.joris.bibliotheque.R;
-
-import java.util.ArrayList;
 
 public class MainActivityGestionnaire extends Activity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {

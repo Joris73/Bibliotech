@@ -60,6 +60,10 @@ public class FragmentAjoutModifLivreGestionnaire extends Fragment {
             }
         });
 
+
+        Bundle bundle = this.getArguments();
+        int id = bundle.getInt("id_livre", 0);
+
         bouton_add_mod.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -11,11 +11,8 @@ import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.joris.bibliotheque.Classes.Livre;
-import com.joris.bibliotheque.Classes.Usager;
 import com.joris.bibliotheque.R;
 
-import java.util.ArrayList;
 import java.util.Locale;
 
 
