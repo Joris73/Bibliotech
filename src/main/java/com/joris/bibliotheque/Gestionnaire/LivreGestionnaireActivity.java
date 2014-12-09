@@ -41,6 +41,7 @@ public class LivreGestionnaireActivity extends Activity {
             TextView auteur = (TextView) findViewById(R.id.tv_auteur_gestionnaire);
             TextView editeur = (TextView) findViewById(R.id.tv_editeur_gestionnaire);
             TextView isbn = (TextView) findViewById(R.id.tv_isbn_gestionnaire);
+            TextView description = (TextView) findViewById(R.id.tv_description_gestionnaire);
             TextView emprunter = (TextView) findViewById(R.id.tv_emprunter_par_gestionnaire);
             buttonModifier = (Button) findViewById(R.id.bt_modifier);
             buttonSupprimer = (Button) findViewById(R.id.bt_supprimer);
@@ -50,8 +51,11 @@ public class LivreGestionnaireActivity extends Activity {
             auteur.setText(livre.getAuteur());
             editeur.setText(livre.getEditeur());
             isbn.setText(Long.toString(livre.getISBN()));
+            description.setText(livre.getDescription());
 
             if (livre.isEmprunte()) {
+                emprunter.setText(livre.getEmpruntePar().getPrenomUsager()
+                        + " " + livre.getEmpruntePar().getNomUsager());
             } else {
                 emprunter.setText(getString(R.string.emprunt_personne));
             }
@@ -59,30 +63,30 @@ public class LivreGestionnaireActivity extends Activity {
             buttonModifier.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    FragmentManager fragmentManager = getFragmentManager();
-                    Fragment fragment = new FragmentAjoutModifLivreGestionnaire();
-                    Bundle bundle = new Bundle();
-                    bundle.putInt("id_livre", livre.getIdLivre());
-                    fragment.setArguments(bundle);
-                    fragmentManager.beginTransaction()
-                            .replace(R.id.container, fragment)
-                            .commit();
+                    MainActivityGestionnaire.id_livre = livre.getIdLivre();
                     finish();
+                }
+            });
+
+            buttonSupprimer.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    String SQLrequest = "UPDATE livre SET deleted = " + 1 +
+                            " WHERE id_livre = " + livre.getIdLivre();
+
+                    new RequestTaskSupprimer().execute(SQLrequest);
                 }
             });
 
         }
     }
 
-    class RequestTaskRendre extends
+    class RequestTaskSupprimer extends
             AsyncTask<String, Void, ArrayList<HashMap<String, String>>> {
 
         @Override
         protected ArrayList<HashMap<String, String>> doInBackground(
                 String... SQLrequest) {
-            String request = "UPDATE livre SET id_emprunteur = null" +
-                    " WHERE id_livre = " + livre.getIdLivre();
-            MainActivity.request.executeRequest(request);
             return MainActivity.request.executeRequest(SQLrequest[0]);
         }
 
@@ -94,9 +98,7 @@ public class LivreGestionnaireActivity extends Activity {
         @Override
         protected void onPostExecute(ArrayList<HashMap<String, String>> response) {
             if (response != null) {
-                MainActivity.userCourant.rendre(livre);
-                buttonModifier.setVisibility(View.INVISIBLE);
-                MainActivityUsager.updateLists();
+                MainActivity.listeLivre.remove(livre);
                 finish();
             } else {
                 Toast.makeText(getParent(), getString(R.string.probleme_bdd), Toast.LENGTH_SHORT).show();

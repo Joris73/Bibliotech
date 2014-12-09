@@ -2,16 +2,18 @@
 <resources>
 
     <string name="app_name">Bibliotheque</string>
-    <string name="title_section1">Livres</string>
-    <string name="title_section2">Mes emprunts</string>
+    <string name="title_livres">Livres</string>
+    <string name="title_mes_emprunts">Mes emprunts</string>
     <string name="title_add">Ajouter un livre</string>
-    <string name="action_settings">Option</string>
+    <string name="title_modifier">Modifier un livre</string>
     <string name="title_activity_livre_usager">Livre Usager</string>
     <string name="title_activity_livre_gestionaire">Livre Gestionnaire</string>
+    <string name="action_settings">Option</string>
     <string name="tv_isbn">ISBN :</string>
     <string name="tv_auteur">Auteur :</string>
     <string name="tv_editeur">Editeur :</string>
     <string name="tv_annee">Annee :</string>
+    <string name="tv_description">Description :</string>
     <string name="tv_emprunter_par">Emprunter par :</string>
     <string name="edit_titre">Titre</string>
     <string name="edit_isbn">ISBN</string>
@@ -30,12 +32,17 @@
     <string name="bt_modifier">Modifier</string>
     <string name="bt_supprimer">Supprimer</string>
     <string name="bt_scanner">Scanner</string>
-    <string name="add_livre">Le livre à bien été ajouté</string>
-    <string name="probleme_bdd">Problème avec la connexion</string>
+    <string name="add_livre">Le livre a bien été ajouté</string>
+    <string name="modif_livre">Le livre a bien été modifié</string>
+    <string name="supp_livre">Le livre a bien été supprimé</string>
     <string name="emprunt_personne">personne</string>
     <string name="zxing_title">Installer Barcode Scanner ?</string>
     <string name="zxing_message">Cette application requiert Barcode Scanner. Voulez-vous l\'installer ?</string>
     <string name="zxing_yes">Oui</string>
     <string name="zxing_no">Non</string>
+    <string name="probleme_bdd">Problème avec la connexion</string>
+    <string name="probleme_isbn">Mauvais format ISBN</string>
+    <string name="probleme_date">Mauvais format de date</string>
+    <string name="probleme_champs">Tous les champs n\'ont pas été remplis</string>
 
 </resources>

@@ -37,6 +37,7 @@ public class LivreUsagerActivity extends Activity {
             TextView auteur = (TextView) findViewById(R.id.tv_auteur_usager);
             TextView editeur = (TextView) findViewById(R.id.tv_editeur_usager);
             TextView isbn = (TextView) findViewById(R.id.tv_isbn_usager);
+            TextView description = (TextView) findViewById(R.id.tv_description_gestionnaire);
             button = (Button) findViewById(R.id.btEmpRend);
 
             titre.setText(livre.getTitre());
@@ -44,6 +45,7 @@ public class LivreUsagerActivity extends Activity {
             auteur.setText(livre.getAuteur());
             editeur.setText(livre.getEditeur());
             isbn.setText(Long.toString(livre.getISBN()));
+            description.setText(livre.getDescription());
 
             if (livre.isEmprunte()) {
                 if (livre.getEmpruntePar().getIdUsager() == MainActivity.userCourant.getIdUsager()) {

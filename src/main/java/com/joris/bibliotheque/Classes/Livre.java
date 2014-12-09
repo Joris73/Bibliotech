@@ -57,6 +57,10 @@ public class Livre {
         return empruntePar;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
     public String getImageName() {
         return imageName;
     }
@@ -67,6 +71,34 @@ public class Livre {
 
     public boolean isEmprunte() {
         return this.empruntePar != null;
+    }
+
+    public void setISBN(long ISBN) {
+        this.ISBN = ISBN;
+    }
+
+    public void setTitre(String titre) {
+        this.titre = titre;
+    }
+
+    public void setAuteur(String auteur) {
+        this.auteur = auteur;
+    }
+
+    public void setEditeur(String editeur) {
+        this.editeur = editeur;
+    }
+
+    public void setAnnee(int annee) {
+        this.annee = annee;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setImageName(String imageName) {
+        this.imageName = imageName;
     }
 
     static public Livre GetLivreList(ArrayList<Livre> livres, int id) {

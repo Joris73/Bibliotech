@@ -2,7 +2,9 @@ package com.joris.bibliotheque.Gestionnaire;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.Fragment;
 import android.app.FragmentManager;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.view.Menu;
@@ -22,6 +24,9 @@ public class MainActivityGestionnaire extends Activity
      * Used to store the last screen title. For use in {@link #restoreActionBar()}.
      */
     private CharSequence mTitle;
+
+    public static Integer id_livre = null;
+    private final static String FRAGMENT_TAG_LIST = "ListeLivreFragment_TAG";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,11 +49,13 @@ public class MainActivityGestionnaire extends Activity
         FragmentManager fragmentManager = getFragmentManager();
         switch (position) {
             case 0:
+                mTitle = getString(R.string.title_livres);
                 fragmentManager.beginTransaction()
-                        .replace(R.id.container, new FragmentListeLivresGestionnaire())
+                        .replace(R.id.container, new FragmentListeLivresGestionnaire(), FRAGMENT_TAG_LIST)
                         .commit();
                 break;
             case 1:
+                mTitle = getString(R.string.title_add);
                 fragmentManager.beginTransaction()
                         .replace(R.id.container, new FragmentAjoutModifLivreGestionnaire())
                         .commit();
@@ -79,17 +86,34 @@ public class MainActivityGestionnaire extends Activity
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        switch (item.getItemId()) {
+            case R.id.action_settings:
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
-
-        return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        FragmentListeLivresGestionnaire mitemListFragment = (FragmentListeLivresGestionnaire)
+                getFragmentManager().findFragmentByTag(FRAGMENT_TAG_LIST);
+        if (mitemListFragment != null)
+            mitemListFragment.updateList();
+
+        if (id_livre != null) {
+            mTitle = getString(R.string.title_modifier);
+            getActionBar().setTitle(mTitle);
+            FragmentManager fragmentManager = getFragmentManager();
+            Fragment fragment = new FragmentAjoutModifLivreGestionnaire();
+            Bundle bundle = new Bundle();
+            bundle.putInt("id_livre", id_livre);
+            fragment.setArguments(bundle);
+            fragmentManager.beginTransaction()
+                    .replace(R.id.container, fragment)
+                    .commit();
+            id_livre = null;
+        }
+    }
 }

@@ -42,6 +42,15 @@ public class FragmentAjoutModifLivreGestionnaire extends Fragment {
     private Button bouton_scan;
     private Fragment context;
 
+    private long isbn;
+    private int annee;
+    private String titre;
+    private String auteur;
+    private String editeur;
+    private String description;
+    private Bundle bundle;
+    private Livre livre;
+
     public FragmentAjoutModifLivreGestionnaire() {
     }
 
@@ -61,29 +70,54 @@ public class FragmentAjoutModifLivreGestionnaire extends Fragment {
         });
 
 
-        Bundle bundle = this.getArguments();
-        int id = bundle.getInt("id_livre", 0);
+        bundle = this.getArguments();
+        if (bundle != null) {
+            int id = bundle.getInt("id_livre", 0);
+            livre = Livre.GetLivreList(MainActivity.listeLivre, id);
+            edit_titre.setText(livre.getTitre());
+            edit_isbn.setText(Long.toString(livre.getISBN()));
+            edit_auteur.setText(livre.getAuteur());
+            edit_editeur.setText(livre.getEditeur());
+            edit_annee.setText(Integer.toString(livre.getAnnee()));
+            edit_description.setText(livre.getDescription());
+            bouton_add_mod.setText(R.string.bt_modifier);
+            bouton_add_mod.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (recupererValeurs()) {
+                        String SQLrequest = "UPDATE livre SET ISBN = '" + isbn + "', " +
+                                "titre_livre = '" + titre + "', " +
+                                "auteur_livre = '" + auteur + "', " +
+                                "editeur_livre = '" + editeur + "', " +
+                                "annee_livre = '" + annee + "', " +
+                                "description_livre = '" + description + "'" +
+                                " WHERE id_livre = " + livre.getIdLivre();
 
-        bouton_add_mod.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+                        new RequestTask().execute(SQLrequest);
+                    } else {
+                        Toast.makeText(getActivity(), getString(R.string.probleme_champs), Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+        } else {
+            bouton_add_mod.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (recupererValeurs()) {
+                        String SQLrequest = "INSERT INTO livre (ISBN, titre_livre, auteur_livre, " +
+                                "editeur_livre, annee_livre, description_livre)" +
+                                " VALUES ('" + isbn + "', '" + titre + "', '" + auteur + "', '" + editeur +
+                                "', '" + annee + "', '" + description + "' )";
 
-                long isbn = Long.parseLong(edit_isbn.getText().toString());
-                String titre = edit_titre.getText().toString();
-                String auteur = edit_auteur.getText().toString();
-                String editeur = edit_editeur.getText().toString();
-                int annee = Integer.parseInt(edit_annee.getText().toString());
-                String description = edit_description.getText().toString();
-
-                String SQLrequest = "INSERT INTO livre (ISBN, titre_livre, auteur_livre, " +
-                        "editeur_livre, annee_livre, description_livre)" +
-                        " VALUES ('" + isbn + "', '" + titre + "', '" + auteur + "', '" + editeur +
-                        "', '" + annee + "', '" + description + "' )";
-
-                new RequestTaskAddLivre().execute(SQLrequest);
-            }
-        });
+                        new RequestTask().execute(SQLrequest);
+                    } else {
+                        Toast.makeText(getActivity(), getString(R.string.probleme_champs), Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+        }
     }
+
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
@@ -98,8 +132,7 @@ public class FragmentAjoutModifLivreGestionnaire extends Fragment {
         }
     }
 
-    class RequestTaskAddLivre extends
-            AsyncTask<String, Void, ArrayList<HashMap<String, String>>> {
+    class RequestTask extends AsyncTask<String, Void, ArrayList<HashMap<String, String>>> {
 
         @Override
         protected ArrayList<HashMap<String, String>> doInBackground(
@@ -115,19 +148,25 @@ public class FragmentAjoutModifLivreGestionnaire extends Fragment {
         @Override
         protected void onPostExecute(ArrayList<HashMap<String, String>> response) {
             if (response != null) {
-                for (HashMap<String, String> relivre : response) {
-
-                    MainActivity.listeLivre.add(new Livre(Integer.parseInt(relivre.get("id_res").toString()),
+                if (bundle != null) {
+                    livre.setTitre(titre);
+                    livre.setISBN(isbn);
+                    livre.setAuteur(auteur);
+                    livre.setEditeur(editeur);
+                    livre.setDescription(description);
+                    livre.setAnnee(annee);
+                    Toast.makeText(getActivity(), getString(R.string.modif_livre), Toast.LENGTH_SHORT).show();
+                } else {
+                    MainActivity.listeLivre.add(new Livre(Integer.parseInt(response.get(0).get("id_res")),
                             Long.parseLong(edit_isbn.getText().toString()), edit_titre.getText().toString(),
                             edit_auteur.getText().toString(), edit_editeur.getText().toString(),
                             Integer.parseInt(edit_annee.getText().toString()), edit_description.getText().toString(), null, null));
-
                     Toast.makeText(getActivity(), getString(R.string.add_livre), Toast.LENGTH_SHORT).show();
-                    FragmentManager fragmentManager = getFragmentManager();
-                    fragmentManager.beginTransaction()
-                            .replace(R.id.container, new FragmentListeLivresGestionnaire())
-                            .commit();
                 }
+                FragmentManager fragmentManager = getFragmentManager();
+                fragmentManager.beginTransaction()
+                        .replace(R.id.container, new FragmentListeLivresGestionnaire())
+                        .commit();
             } else {
                 Toast.makeText(getActivity(), getString(R.string.probleme_bdd), Toast.LENGTH_SHORT).show();
             }
@@ -151,7 +190,37 @@ public class FragmentAjoutModifLivreGestionnaire extends Fragment {
         return rootview;
     }
 
-    void setFocusChange() {
+    /**
+     * @return vrai si champs valide, faux sinon
+     */
+
+    private boolean recupererValeurs() {
+        try {
+            isbn = Long.parseLong(edit_isbn.getText().toString());
+        } catch (NumberFormatException e) {
+            Toast.makeText(getActivity(), getString(R.string.probleme_isbn), Toast.LENGTH_SHORT).show();
+        }
+        try {
+            annee = Integer.parseInt(edit_annee.getText().toString());
+            if (edit_annee.getText().toString().length() != 4)
+                throw new NumberFormatException();
+        } catch (NumberFormatException e) {
+            Toast.makeText(getActivity(), getString(R.string.probleme_date), Toast.LENGTH_SHORT).show();
+        }
+        titre = edit_titre.getText().toString();
+        auteur = edit_auteur.getText().toString();
+        editeur = edit_editeur.getText().toString();
+        description = edit_description.getText().toString();
+        if (titre.isEmpty() || auteur.isEmpty() || editeur.isEmpty() || description.isEmpty())
+            return false;
+
+        return true;
+    }
+
+    /**
+     * Va changer le text dans les edittext en fonction du focus
+     */
+    private void setFocusChange() {
         edit_titre.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
@@ -162,7 +231,6 @@ public class FragmentAjoutModifLivreGestionnaire extends Fragment {
                 }
             }
         });
-
 
         edit_isbn.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override

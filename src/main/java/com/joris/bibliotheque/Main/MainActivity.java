@@ -35,7 +35,7 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
 
 
-        request = new Requests("http://192.168.0.1/Bibliotheque/api/",
+        request = new Requests("http://78.238.140.91//Bibliotheque/api/",
                 "appli", "root");
 
         listeLivre = new ArrayList<Livre>();
@@ -111,33 +111,29 @@ public class MainActivity extends Activity {
                 Livre livre;
                 for (HashMap<String, String> relivre : response) {
 
-                    Log.wtf("Test", relivre.get("titre_livre"));
-                    Log.wtf("Test", relivre.get("titre_livre").toString());
-
-
                     if (relivre.get("id_emprunteur") != null) {
-                        int idUsager = Integer.parseInt(relivre.get("id_emprunteur").toString());
+                        int idUsager = Integer.parseInt(relivre.get("id_emprunteur"));
 
                         if (idUsager == userCourant.getIdUsager()) {
-                            livre = new Livre(Integer.parseInt(relivre.get("id_livre").toString()),
-                                    Long.parseLong(relivre.get("ISBN").toString()), relivre.get("titre_livre").toString(),
-                                    relivre.get("auteur_livre").toString(), relivre.get("editeur_livre").toString(),
-                                    Integer.parseInt(relivre.get("annee_livre").toString()),
-                                    relivre.get("description_livre").toString(), null, userCourant);
+                            livre = new Livre(Integer.parseInt(relivre.get("id_livre")),
+                                    Long.parseLong(relivre.get("ISBN")), relivre.get("titre_livre"),
+                                    relivre.get("auteur_livre"), relivre.get("editeur_livre"),
+                                    Integer.parseInt(relivre.get("annee_livre")),
+                                    relivre.get("description_livre"), null, userCourant);
                             userCourant.getListeEmprunt().add(livre);
                         } else {
-                            livre = new Livre(Integer.parseInt(relivre.get("id_livre").toString()),
-                                    Long.parseLong(relivre.get("ISBN").toString()), relivre.get("titre_livre").toString(),
-                                    relivre.get("auteur_livre").toString(), relivre.get("editeur_livre").toString(),
-                                    Integer.parseInt(relivre.get("annee_livre").toString()),
-                                    relivre.get("description_livre").toString(), null, null);
+                            livre = new Livre(Integer.parseInt(relivre.get("id_livre")),
+                                    Long.parseLong(relivre.get("ISBN")), relivre.get("titre_livre"),
+                                    relivre.get("auteur_livre"), relivre.get("editeur_livre"),
+                                    Integer.parseInt(relivre.get("annee_livre")),
+                                    relivre.get("description_livre"), null, null);
                         }
                     } else {
-                        livre = new Livre(Integer.parseInt(relivre.get("id_livre").toString()),
-                                Long.parseLong(relivre.get("ISBN").toString()), relivre.get("titre_livre").toString(),
-                                relivre.get("auteur_livre").toString(), relivre.get("editeur_livre").toString(),
-                                Integer.parseInt(relivre.get("annee_livre").toString()),
-                                relivre.get("description_livre").toString(), null, null);
+                        livre = new Livre(Integer.parseInt(relivre.get("id_livre")),
+                                Long.parseLong(relivre.get("ISBN")), relivre.get("titre_livre"),
+                                relivre.get("auteur_livre"), relivre.get("editeur_livre"),
+                                Integer.parseInt(relivre.get("annee_livre")),
+                                relivre.get("description_livre"), null, null);
                     }
                     listeLivre.add(livre);
                 }
