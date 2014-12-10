@@ -44,5 +44,8 @@
     <string name="probleme_isbn">Mauvais format ISBN</string>
     <string name="probleme_date">Mauvais format de date</string>
     <string name="probleme_champs">Tous les champs n\'ont pas été remplis</string>
+    <string name="message_dialog">Voulez vous vraiment supprimer ce livre ?</string>
+    <string name="yes">Oui</string>
+    <string name="no">Non</string>
 
 </resources>

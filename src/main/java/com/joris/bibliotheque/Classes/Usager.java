@@ -18,7 +18,7 @@ public class Usager {
         this.loginUsager = loginUsager;
         this.nomUsager = nomUsager;
         this.prenomUsager = prenomUsager;
-        this.listeEmprunt = new ArrayList<Livre>();
+        this.listeEmprunt = new ArrayList<>();
     }
 
     public Usager(int idUsager, String loginUsager, String nomUsager, String prenomUsager, ArrayList<Livre> listeEmprunt) {
@@ -27,7 +27,7 @@ public class Usager {
         this.nomUsager = nomUsager;
         this.prenomUsager = prenomUsager;
         this.listeEmprunt = listeEmprunt;
-        this.listeEmprunt = new ArrayList<Livre>();
+        this.listeEmprunt = new ArrayList<>();
     }
 
     public int getIdUsager() {
@@ -56,15 +56,15 @@ public class Usager {
 
     public void addEmprunt(Livre livre) {
         if (this.listeEmprunt == null)
-            this.listeEmprunt = new ArrayList<Livre>();
+            this.listeEmprunt = new ArrayList<>();
         this.listeEmprunt.add(livre);
-        livre.setEmpruntePar(this);
+        livre.setIdEmpruntePar(this.idUsager);
     }
 
     public void rendre(Livre livre) {
         if (this.listeEmprunt != null) {
             this.listeEmprunt.remove(livre);
-            livre.setEmpruntePar(null);
+            livre.setIdEmpruntePar(null);
         }
     }
 }

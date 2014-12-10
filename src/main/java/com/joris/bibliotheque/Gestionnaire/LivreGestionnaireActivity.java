@@ -1,8 +1,8 @@
 package com.joris.bibliotheque.Gestionnaire;
 
 import android.app.Activity;
-import android.app.Fragment;
-import android.app.FragmentManager;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -15,7 +15,6 @@ import android.widget.Toast;
 import com.joris.bibliotheque.Classes.Livre;
 import com.joris.bibliotheque.Main.MainActivity;
 import com.joris.bibliotheque.R;
-import com.joris.bibliotheque.Usager.MainActivityUsager;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -25,6 +24,7 @@ public class LivreGestionnaireActivity extends Activity {
     private ProgressBar progressbar;
     private Button buttonModifier;
     private Button buttonSupprimer;
+    private TextView emprunter;
     private Livre livre;
 
     @Override
@@ -42,7 +42,7 @@ public class LivreGestionnaireActivity extends Activity {
             TextView editeur = (TextView) findViewById(R.id.tv_editeur_gestionnaire);
             TextView isbn = (TextView) findViewById(R.id.tv_isbn_gestionnaire);
             TextView description = (TextView) findViewById(R.id.tv_description_gestionnaire);
-            TextView emprunter = (TextView) findViewById(R.id.tv_emprunter_par_gestionnaire);
+            emprunter = (TextView) findViewById(R.id.tv_emprunter_par_gestionnaire);
             buttonModifier = (Button) findViewById(R.id.bt_modifier);
             buttonSupprimer = (Button) findViewById(R.id.bt_supprimer);
 
@@ -54,8 +54,11 @@ public class LivreGestionnaireActivity extends Activity {
             description.setText(livre.getDescription());
 
             if (livre.isEmprunte()) {
-                emprunter.setText(livre.getEmpruntePar().getPrenomUsager()
-                        + " " + livre.getEmpruntePar().getNomUsager());
+                String SQLrequest = "SELECT * "
+                        + "FROM usager U "
+                        + "WHERE U.id_usager = " + livre.getIdEmpruntePar();
+                new RequestTaskEmprunteur().execute(SQLrequest);
+
             } else {
                 emprunter.setText(getString(R.string.emprunt_personne));
             }
@@ -71,10 +74,21 @@ public class LivreGestionnaireActivity extends Activity {
             buttonSupprimer.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    String SQLrequest = "UPDATE livre SET deleted = " + 1 +
-                            " WHERE id_livre = " + livre.getIdLivre();
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getBaseContext());
+                    builder.setMessage(getString(R.string.message_dialog))
+                            .setCancelable(true)
+                            .setPositiveButton(getString(R.string.yes),
+                                    new DialogInterface.OnClickListener() {
+                                        public void onClick(final DialogInterface dialog,
+                                                            final int id) {
+                                            String SQLrequest = "UPDATE livre SET deleted = " + 1 +
+                                                    " WHERE id_livre = " + livre.getIdLivre();
 
-                    new RequestTaskSupprimer().execute(SQLrequest);
+                                            new RequestTaskSupprimer().execute(SQLrequest);
+                                        }
+                                    })
+                            .setNegativeButton(getString(R.string.no), null);
+                    builder.create().show();
                 }
             });
 
@@ -100,6 +114,35 @@ public class LivreGestionnaireActivity extends Activity {
             if (response != null) {
                 MainActivity.listeLivre.remove(livre);
                 finish();
+            } else {
+                Toast.makeText(getParent(), getString(R.string.probleme_bdd), Toast.LENGTH_SHORT).show();
+            }
+            progressbar.setVisibility(View.GONE);
+        }
+    }
+
+    class RequestTaskEmprunteur extends
+            AsyncTask<String, Void, ArrayList<HashMap<String, String>>> {
+
+        @Override
+        protected ArrayList<HashMap<String, String>> doInBackground(
+                String... SQLrequest) {
+            return MainActivity.request.executeRequest(SQLrequest[0]);
+        }
+
+        @Override
+        protected void onPreExecute() {
+            progressbar.setVisibility(View.VISIBLE);
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<HashMap<String, String>> response) {
+            if (response != null) {
+                for (HashMap<String, String> usager : response) {
+                    emprunter.setText(" " +
+                            usager.get("nom_usager") + " " +
+                            usager.get("prenom_usager"));
+                }
             } else {
                 Toast.makeText(getParent(), getString(R.string.probleme_bdd), Toast.LENGTH_SHORT).show();
             }

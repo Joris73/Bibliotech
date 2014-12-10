@@ -14,10 +14,10 @@ public class Livre {
     private int annee;
     private String description;
     private String imageName;
-    private Usager empruntePar;
+    private Integer idEmpruntePar;
 
     public Livre(int idLivre, long ISBN, String titre, String auteur, String editeur,
-                 int annee, String description, String imageName, Usager empruntePar) {
+                 int annee, String description, String imageName, Integer idEmpruntePar) {
         this.idLivre = idLivre;
         this.ISBN = ISBN;
         this.titre = titre;
@@ -26,7 +26,7 @@ public class Livre {
         this.annee = annee;
         this.description = description;
         this.imageName = imageName;
-        this.empruntePar = empruntePar;
+        this.idEmpruntePar = idEmpruntePar;
     }
 
     public int getIdLivre() {
@@ -53,8 +53,8 @@ public class Livre {
         return annee;
     }
 
-    public Usager getEmpruntePar() {
-        return empruntePar;
+    public Integer getIdEmpruntePar() {
+        return idEmpruntePar;
     }
 
     public String getDescription() {
@@ -65,12 +65,12 @@ public class Livre {
         return imageName;
     }
 
-    public void setEmpruntePar(Usager empruntePar) {
-        this.empruntePar = empruntePar;
+    public void setIdEmpruntePar(Integer idEmpruntePar) {
+        this.idEmpruntePar = idEmpruntePar;
     }
 
     public boolean isEmprunte() {
-        return this.empruntePar != null;
+        return this.idEmpruntePar != null;
     }
 
     public void setISBN(long ISBN) {

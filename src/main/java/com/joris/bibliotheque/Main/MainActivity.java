@@ -4,12 +4,12 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.joris.bibliotheque.Classes.Livre;
 import com.joris.bibliotheque.Classes.Usager;
@@ -38,7 +38,7 @@ public class MainActivity extends Activity {
         request = new Requests("http://78.238.140.91//Bibliotheque/api/",
                 "appli", "root");
 
-        listeLivre = new ArrayList<Livre>();
+        listeLivre = new ArrayList<>();
         userCourant = new Usager(1, "bodinj", "bodin", "joris");
 
         button_gestionnaire = (Button) findViewById(R.id.bt_gestionnaire);
@@ -68,7 +68,6 @@ public class MainActivity extends Activity {
                 + "WHERE L.deleted = 0";
 
         new RequestTaskAllLivre().execute(SQLrequest);
-
     }
 
 
@@ -113,21 +112,13 @@ public class MainActivity extends Activity {
 
                     if (relivre.get("id_emprunteur") != null) {
                         int idUsager = Integer.parseInt(relivre.get("id_emprunteur"));
-
-                        if (idUsager == userCourant.getIdUsager()) {
-                            livre = new Livre(Integer.parseInt(relivre.get("id_livre")),
-                                    Long.parseLong(relivre.get("ISBN")), relivre.get("titre_livre"),
-                                    relivre.get("auteur_livre"), relivre.get("editeur_livre"),
-                                    Integer.parseInt(relivre.get("annee_livre")),
-                                    relivre.get("description_livre"), null, userCourant);
-                            userCourant.getListeEmprunt().add(livre);
-                        } else {
-                            livre = new Livre(Integer.parseInt(relivre.get("id_livre")),
-                                    Long.parseLong(relivre.get("ISBN")), relivre.get("titre_livre"),
-                                    relivre.get("auteur_livre"), relivre.get("editeur_livre"),
-                                    Integer.parseInt(relivre.get("annee_livre")),
-                                    relivre.get("description_livre"), null, null);
-                        }
+                        livre = new Livre(Integer.parseInt(relivre.get("id_livre")),
+                                Long.parseLong(relivre.get("ISBN")), relivre.get("titre_livre"),
+                                relivre.get("auteur_livre"), relivre.get("editeur_livre"),
+                                Integer.parseInt(relivre.get("annee_livre")),
+                                relivre.get("description_livre"), null, idUsager);
+                        if (idUsager == userCourant.getIdUsager())
+                            userCourant.addEmprunt(livre);
                     } else {
                         livre = new Livre(Integer.parseInt(relivre.get("id_livre")),
                                 Long.parseLong(relivre.get("ISBN")), relivre.get("titre_livre"),
@@ -137,7 +128,8 @@ public class MainActivity extends Activity {
                     }
                     listeLivre.add(livre);
                 }
-
+            } else {
+                Toast.makeText(getParent(), getString(R.string.probleme_bdd), Toast.LENGTH_SHORT).show();
             }
             button_gestionnaire.setVisibility(View.VISIBLE);
             button_usager.setVisibility(View.VISIBLE);

@@ -48,7 +48,7 @@ public class LivreUsagerActivity extends Activity {
             description.setText(livre.getDescription());
 
             if (livre.isEmprunte()) {
-                if (livre.getEmpruntePar().getIdUsager() == MainActivity.userCourant.getIdUsager()) {
+                if (livre.getIdEmpruntePar() == MainActivity.userCourant.getIdUsager()) {
                     button.setText(getString(R.string.bt_rendre));
                     button.setOnClickListener(new View.OnClickListener() {
                         @Override
