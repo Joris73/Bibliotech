@@ -6,7 +6,7 @@
     tools:context="com.joris.bibliotheque.Usager.LivreUsagerActivity">
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:paddingLeft="@dimen/activity_horizontal_margin"
         android:paddingRight="@dimen/activity_horizontal_margin"
         android:paddingTop="@dimen/activity_vertical_margin"
@@ -44,7 +44,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Medium Text"
+            android:text=""
             android:id="@+id/tv_isbn_usager"
             android:layout_below="@+id/tv_titre_usager"
             android:layout_toEndOf="@+id/tv1_usager" />
@@ -62,7 +62,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Medium Text"
+            android:text=""
             android:id="@+id/tv_auteur_usager"
             android:layout_below="@+id/tv_isbn_usager"
             android:layout_toEndOf="@+id/tv2_usager" />
@@ -80,7 +80,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Medium Text"
+            android:text=""
             android:id="@+id/tv_editeur_usager"
             android:layout_below="@+id/tv_auteur_usager"
             android:layout_toEndOf="@+id/tv3_usager" />
@@ -98,7 +98,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Medium Text"
+            android:text=""
             android:id="@+id/tv_annee_usager"
             android:layout_below="@+id/tv_editeur_usager"
             android:layout_toEndOf="@+id/tv4_usager" />
@@ -116,7 +116,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Medium Text"
+            android:text=""
             android:id="@+id/tv_description_usager"
             android:layout_below="@+id/tv_annee_usager"
             android:layout_toEndOf="@+id/tv5_usager" />
