@@ -208,9 +208,13 @@ public class FragmentAjoutModifLivreGestionnaire extends Fragment {
             Toast.makeText(getActivity(), getString(R.string.probleme_date), Toast.LENGTH_SHORT).show();
         }
         titre = edit_titre.getText().toString();
+        titre.replaceAll("'","\'");
         auteur = edit_auteur.getText().toString();
+        auteur.replaceAll("'","\'");
         editeur = edit_editeur.getText().toString();
+        editeur.replaceAll("'","\'");
         description = edit_description.getText().toString();
+        description.replaceAll("'","\'");
         if (titre.isEmpty() || auteur.isEmpty() || editeur.isEmpty() || description.isEmpty())
             return false;
 

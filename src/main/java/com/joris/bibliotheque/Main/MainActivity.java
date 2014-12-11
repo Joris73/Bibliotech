@@ -17,6 +17,7 @@ import com.joris.bibliotheque.Gestionnaire.MainActivityGestionnaire;
 import com.joris.bibliotheque.R;
 import com.joris.bibliotheque.Usager.MainActivityUsager;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -68,6 +69,20 @@ public class MainActivity extends Activity {
                 + "WHERE L.deleted = 0";
 
         new RequestTaskAllLivre().execute(SQLrequest);
+    }
+
+    public String toMD5(String md5) {
+        try {
+            java.security.MessageDigest md = java.security.MessageDigest.getInstance("MD5");
+            byte[] array = md.digest(md5.getBytes());
+            return new String(array, "UTF-8");
+        } catch (java.security.NoSuchAlgorithmException e) {
+            e.printStackTrace();
+            return null;
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
 
