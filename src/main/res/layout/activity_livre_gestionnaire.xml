@@ -7,7 +7,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:paddingLeft="@dimen/activity_horizontal_margin"
         android:paddingRight="@dimen/activity_horizontal_margin"
         android:paddingTop="@dimen/activity_vertical_margin"
@@ -45,7 +45,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Medium Text"
+            android:text=""
             android:id="@+id/tv_isbn_gestionnaire"
             android:layout_below="@+id/tv_titre_gestionnaire"
             android:layout_toEndOf="@+id/tv1_gestionnaire" />
@@ -63,7 +63,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Medium Text"
+            android:text=""
             android:id="@+id/tv_auteur_gestionnaire"
             android:layout_below="@+id/tv_isbn_gestionnaire"
             android:layout_toEndOf="@+id/tv2_gestionnaire" />
@@ -81,7 +81,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Medium Text"
+            android:text=""
             android:id="@+id/tv_editeur_gestionnaire"
             android:layout_below="@+id/tv_auteur_gestionnaire"
             android:layout_toEndOf="@+id/tv3_gestionnaire" />
@@ -99,7 +99,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Medium Text"
+            android:text=""
             android:id="@+id/tv_annee_gestionnaire"
             android:layout_below="@+id/tv_editeur_gestionnaire"
             android:layout_toEndOf="@+id/tv4_gestionnaire" />
@@ -117,7 +117,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Medium Text"
+            android:text=""
             android:id="@+id/tv_description_gestionnaire"
             android:layout_below="@+id/tv_annee_gestionnaire"
             android:layout_toEndOf="@+id/tv5_gestionnaire" />
@@ -135,7 +135,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Medium Text"
+            android:text=""
             android:id="@+id/tv_emprunter_par_gestionnaire"
             android:layout_below="@+id/tv_description_gestionnaire"
             android:layout_toEndOf="@+id/tv6_gestionnaire" />
