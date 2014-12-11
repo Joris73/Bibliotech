@@ -93,7 +93,7 @@ public class FragmentAjoutModifLivreGestionnaire extends Fragment {
                                 "description_livre = '" + description + "'" +
                                 " WHERE id_livre = " + livre.getIdLivre();
 
-                        new RequestTask().execute(SQLrequest);
+                        //new RequestTask().execute(SQLrequest);
                     } else {
                         Toast.makeText(getActivity(), getString(R.string.probleme_champs), Toast.LENGTH_SHORT).show();
                     }
@@ -193,7 +193,6 @@ public class FragmentAjoutModifLivreGestionnaire extends Fragment {
     /**
      * @return vrai si champs valide, faux sinon
      */
-
     private boolean recupererValeurs() {
         try {
             isbn = Long.parseLong(edit_isbn.getText().toString());
@@ -208,14 +207,14 @@ public class FragmentAjoutModifLivreGestionnaire extends Fragment {
             Toast.makeText(getActivity(), getString(R.string.probleme_date), Toast.LENGTH_SHORT).show();
         }
         titre = edit_titre.getText().toString();
-        titre.replaceAll("'","\'");
+        titre = titre.replaceAll("'", "''");
         auteur = edit_auteur.getText().toString();
-        auteur.replaceAll("'","\'");
+        auteur = auteur.replaceAll("'", "''");
         editeur = edit_editeur.getText().toString();
-        editeur.replaceAll("'","\'");
+        editeur = editeur.replaceAll("'", "''");
         description = edit_description.getText().toString();
-        description.replaceAll("'","\'");
-        
+        description = description.replaceAll("'", "''");
+
         if (titre.isEmpty() || auteur.isEmpty() || editeur.isEmpty() || description.isEmpty())
             return false;
 

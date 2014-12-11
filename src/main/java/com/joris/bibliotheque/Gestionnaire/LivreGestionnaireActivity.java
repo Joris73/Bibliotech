@@ -115,7 +115,7 @@ public class LivreGestionnaireActivity extends Activity {
                 MainActivity.listeLivre.remove(livre);
                 finish();
             } else {
-                Toast.makeText(getParent(), getString(R.string.probleme_bdd), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), getString(R.string.probleme_bdd), Toast.LENGTH_SHORT).show();
             }
             progressbar.setVisibility(View.GONE);
         }
@@ -144,7 +144,7 @@ public class LivreGestionnaireActivity extends Activity {
                             usager.get("prenom_usager"));
                 }
             } else {
-                Toast.makeText(getParent(), getString(R.string.probleme_bdd), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), getString(R.string.probleme_bdd), Toast.LENGTH_SHORT).show();
             }
             progressbar.setVisibility(View.GONE);
         }

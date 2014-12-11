@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.joris.bibliotheque.Main.MainActivity"
+    tools:context="com.joris.bibliotheque.Main.InscriptionActivity"
     android:orientation="vertical"
     android:gravity="center_horizontal">
 
@@ -14,48 +14,67 @@
         android:indeterminate="true"
         android:visibility="gone" />
 
-    <TextView
-        android:layout_width="wrap_content"
+    <EditText
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/activity_vertical_margin"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="@string/message_bienvenue"
-        android:id="@+id/textView" />
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:text="@string/edit_nom"
+        android:id="@+id/edit_nom"
+        android:singleLine="true"
+        android:inputType="text"
+        android:gravity="center" />
 
     <EditText
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:text="@string/edit_prenom"
+        android:id="@+id/edit_prenom"
+        android:singleLine="true"
+        android:inputType="text"
+        android:gravity="center" />
+
+    <EditText
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:layout_marginTop="@dimen/activity_vertical_margin"
         android:text="@string/edit_login"
-        android:id="@+id/edit_connect_login"
+        android:id="@+id/edit_login"
         android:singleLine="true"
         android:inputType="text"
-        android:gravity="center"
-        android:width="150dp" />
+        android:gravity="center" />
 
     <EditText
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:layout_marginTop="@dimen/activity_vertical_margin"
         android:text="@string/edit_mdp"
-        android:id="@+id/edit_connect_mdp"
+        android:id="@+id/edit_mdp"
         android:singleLine="true"
         android:inputType="text"
-        android:gravity="center"
-        android:width="150dp" />
+        android:gravity="center" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:text="@string/edit_email"
+        android:id="@+id/edit_email"
+        android:singleLine="true"
+        android:inputType="textEmailAddress"
+        android:gravity="center" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/bt_connexion"
-        android:id="@+id/bt_connexion" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
         android:text="@string/bt_inscription"
-        android:id="@+id/bt_main_inscription" />
+        android:id="@+id/bt_inscription" />
 
 </LinearLayout>
+
