@@ -215,6 +215,7 @@ public class FragmentAjoutModifLivreGestionnaire extends Fragment {
         editeur.replaceAll("'","\'");
         description = edit_description.getText().toString();
         description.replaceAll("'","\'");
+        
         if (titre.isEmpty() || auteur.isEmpty() || editeur.isEmpty() || description.isEmpty())
             return false;
 
