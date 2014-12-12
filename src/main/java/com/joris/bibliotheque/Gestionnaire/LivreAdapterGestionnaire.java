@@ -1,6 +1,5 @@
 package com.joris.bibliotheque.Gestionnaire;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -15,6 +14,9 @@ import com.joris.bibliotheque.R;
 
 import java.util.ArrayList;
 
+/**
+ * Adaptateur pour afficher la liste de livre de façon personnalisé
+ */
 public class LivreAdapterGestionnaire extends BaseAdapter {
 
     private Activity activity;

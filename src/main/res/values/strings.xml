@@ -34,10 +34,11 @@
     <string name="bt_scanner">Scanner</string>
     <string name="bt_connexion">Connexion</string>
     <string name="bt_inscription">Inscription</string>
+    <string name="add_inscription">Inscription réussite</string>
     <string name="add_livre">Le livre a bien été ajouté</string>
     <string name="modif_livre">Le livre a bien été modifié</string>
     <string name="supp_livre">Le livre a bien été supprimé</string>
-    <string name="emprunt_personne">personne</string>
+    <string name="emprunt_personne">Personne</string>
     <string name="zxing_title">Installer Barcode Scanner ?</string>
     <string name="zxing_message">Cette application requiert Barcode Scanner. Voulez-vous l\'installer ?</string>
     <string name="zxing_yes">Oui</string>
@@ -47,10 +48,12 @@
     <string name="probleme_isbn">Mauvais format ISBN</string>
     <string name="probleme_date">Mauvais format de date</string>
     <string name="probleme_champs">Tous les champs n\'ont pas été remplis</string>
+    <string name="probleme_email">Ceci n\'est pas une adresse email valide</string>
     <string name="message_dialog">Voulez vous vraiment supprimer ce livre ?</string>
     <string name="yes">Oui</string>
     <string name="no">Non</string>
     <string name="message_bienvenue">Bienvenue dans la Bibliotheque\nVeuillez-vous connecter</string>
+    <string name="message_inscription">Pas encore inscrit ?</string>
     <string name="edit_login">Login</string>
     <string name="edit_mdp">Mots de passe</string>
     <string name="edit_email">Email</string>

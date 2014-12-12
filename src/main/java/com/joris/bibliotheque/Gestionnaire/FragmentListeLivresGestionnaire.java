@@ -1,6 +1,5 @@
 package com.joris.bibliotheque.Gestionnaire;
 
-import android.annotation.SuppressLint;
 import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,21 +12,15 @@ import android.widget.ListView;
 import com.joris.bibliotheque.Classes.Livre;
 import com.joris.bibliotheque.Main.MainActivity;
 import com.joris.bibliotheque.R;
-import com.joris.bibliotheque.Usager.LivreUsagerActivity;
-import com.joris.bibliotheque.Usager.MainActivityUsager;
 
+/**
+ * Fragment qui affiche la liste des livres d'un point de vu gestionnaire
+ */
 public class FragmentListeLivresGestionnaire extends Fragment {
 
     private LivreAdapterGestionnaire adapter;
-    private MainActivityUsager context;
 
     public FragmentListeLivresGestionnaire() {
-    }
-
-    @SuppressLint("ValidFragment")
-    public FragmentListeLivresGestionnaire(MainActivityUsager context) {
-        super();
-        this.context = context;
     }
 
     @Override
@@ -55,7 +48,9 @@ public class FragmentListeLivresGestionnaire extends Fragment {
         return inflater.inflate(R.layout.fragment_liste_livres_gestionnaire, container, false);
     }
 
-
+    /**
+     * Va notifier que la liste des livre à changer et mettre à jour la liste
+     */
     public void updateList() {
         adapter.notifyDataSetChanged();
     }

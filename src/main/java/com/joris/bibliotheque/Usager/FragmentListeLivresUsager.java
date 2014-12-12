@@ -14,6 +14,9 @@ import com.joris.bibliotheque.Classes.Livre;
 import com.joris.bibliotheque.Main.MainActivity;
 import com.joris.bibliotheque.R;
 
+/**
+ * Fragment qui affiche tous les livres pour l'utilisateur
+ */
 public class FragmentListeLivresUsager extends Fragment {
 
     private LivreAdapterUsager adapter;
@@ -53,7 +56,9 @@ public class FragmentListeLivresUsager extends Fragment {
         return inflater.inflate(R.layout.fragment_liste_livres_usager, container, false);
     }
 
-
+    /**
+     * Va notifier une modification dans la liste des livre et mettre à jour la liste visuelle
+     */
     public void updateList() {
         adapter.notifyDataSetChanged();
     }

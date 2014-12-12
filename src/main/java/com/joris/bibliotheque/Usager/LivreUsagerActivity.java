@@ -17,6 +17,10 @@ import com.joris.bibliotheque.R;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/**
+ * Activité qui permet à l'usager de voir les infos du livre et de pouvoir l'emprunter s'il est
+ * dispo ou de le rendre
+ */
 public class LivreUsagerActivity extends Activity {
 
     private ProgressBar progressbar;
@@ -80,6 +84,9 @@ public class LivreUsagerActivity extends Activity {
         }
     }
 
+    /**
+     * RequestTask qui va ajouter l'emprunt du livre courant par l'usagé connecté
+     */
     class RequestTaskAddEmprunt extends
             AsyncTask<String, Void, ArrayList<HashMap<String, String>>> {
 
@@ -111,6 +118,9 @@ public class LivreUsagerActivity extends Activity {
         }
     }
 
+    /**
+     * RequestTask qui va rendre le livre emprunté actuellement par cette usagé.
+     */
     class RequestTaskRendre extends
             AsyncTask<String, Void, ArrayList<HashMap<String, String>>> {
 

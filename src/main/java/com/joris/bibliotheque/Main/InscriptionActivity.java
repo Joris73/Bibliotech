@@ -1,15 +1,23 @@
 package com.joris.bibliotheque.Main;
 
 import android.app.Activity;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.joris.bibliotheque.R;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
+/**
+ * Activity qui gère les inscriptions
+ */
 public class InscriptionActivity extends Activity {
 
     private EditText edit_nom;
@@ -17,13 +25,18 @@ public class InscriptionActivity extends Activity {
     private EditText edit_login;
     private EditText edit_mdp;
     private EditText edit_email;
+    private String nom;
+    private String prenom;
     private String login;
     private String mdp;
+    private String email;
+    private ProgressBar progressbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inscription);
+        progressbar = (ProgressBar) findViewById(R.id.inscription_progress_bar);
         edit_nom = (EditText) findViewById(R.id.edit_nom);
         edit_prenom = (EditText) findViewById(R.id.edit_prenom);
         edit_login = (EditText) findViewById(R.id.edit_login);
@@ -35,15 +48,14 @@ public class InscriptionActivity extends Activity {
             @Override
             public void onClick(View v) {
                 if (recupererValeurs()) {
+                    if (isValidEmailAddress(email)) {
+                        String SQLrequest = "INSERT INTO usager (nom_usager, prenom_usager)" +
+                                " VALUES ('" + nom + "', '" + prenom + "' )";
 
-                    String mdpMD5 = toMD5(mdp);
-
-                    String SQLrequest = "SELECT * "
-                            + "FROM user U "
-                            + "JOIN usager US ON U.id_usager=US.id_usager "
-                            + "WHERE U.login_user = '" + login + "' and pass_login_user = '" + mdpMD5 + "'";
-
-                    //new RequestTaskConnexion().execute(SQLrequest);
+                        new RequestTaskInscriptionUsager().execute(SQLrequest);
+                    } else {
+                        Toast.makeText(getApplicationContext(), getString(R.string.probleme_email), Toast.LENGTH_SHORT).show();
+                    }
                 } else {
                     Toast.makeText(getApplicationContext(), getString(R.string.probleme_champs), Toast.LENGTH_SHORT).show();
                 }
@@ -55,6 +67,7 @@ public class InscriptionActivity extends Activity {
 
     /**
      * Retourne une string en md5
+     *
      * @param md5
      * @return
      */
@@ -76,14 +89,99 @@ public class InscriptionActivity extends Activity {
      * @return vrai si champs valide, faux sinon
      */
     private boolean recupererValeurs() {
+
+        nom = edit_nom.getText().toString();
+        nom = nom.replaceAll("'", "''");
+        prenom = edit_prenom.getText().toString();
+        prenom = prenom.replaceAll("'", "''");
         login = edit_login.getText().toString();
         login = login.replaceAll("'", "''");
         mdp = edit_login.getText().toString();
+        email = edit_email.getText().toString();
+        email = email.replaceAll("'", "''");
 
-        if (login.isEmpty() || mdp.isEmpty())
+        if (nom.isEmpty() || prenom.isEmpty() || login.isEmpty() || mdp.isEmpty() || email.isEmpty())
             return false;
 
         return true;
+    }
+
+    /**
+     * Test si une string est bien une adresse email
+     *
+     * @param email
+     * @return
+     */
+    public boolean isValidEmailAddress(String email) {
+        String ePattern = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$";
+        java.util.regex.Pattern p = java.util.regex.Pattern.compile(ePattern);
+        java.util.regex.Matcher m = p.matcher(email);
+        return m.matches();
+    }
+
+    /**
+     * RequestTask pour l'inscription de l'usager
+     */
+    class RequestTaskInscriptionUsager extends
+            AsyncTask<String, Void, ArrayList<HashMap<String, String>>> {
+
+        @Override
+        protected ArrayList<HashMap<String, String>> doInBackground(
+                String... SQLrequest) {
+            return MainActivity.request.executeRequest(SQLrequest[0]);
+        }
+
+        @Override
+        protected void onPreExecute() {
+            progressbar.setVisibility(View.VISIBLE);
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<HashMap<String, String>> response) {
+            if (response != null) {
+                String mdpMD5 = toMD5(mdp);
+
+                String SQLrequest = "INSERT INTO user (email_user, login_user, pass_login_user, "
+                        + "type_user, id_usager) "
+                        + "VALUES ('" + email + "', '" + login + "', '" + mdpMD5 + "', '1', '"
+                        + Integer.parseInt(response.get(0).get("id_res")) + "' )";
+
+                new RequestTaskInscriptionUser().execute(SQLrequest);
+
+            } else {
+                Toast.makeText(getApplicationContext(), getString(R.string.probleme_bdd), Toast.LENGTH_SHORT).show();
+            }
+            progressbar.setVisibility(View.GONE);
+        }
+    }
+
+    /**
+     * RequestTask pour l'inscription de l'user
+     */
+    class RequestTaskInscriptionUser extends
+            AsyncTask<String, Void, ArrayList<HashMap<String, String>>> {
+
+        @Override
+        protected ArrayList<HashMap<String, String>> doInBackground(
+                String... SQLrequest) {
+            return MainActivity.request.executeRequest(SQLrequest[0]);
+        }
+
+        @Override
+        protected void onPreExecute() {
+            progressbar.setVisibility(View.VISIBLE);
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<HashMap<String, String>> response) {
+            if (response != null) {
+                Toast.makeText(getApplicationContext(), getString(R.string.add_inscription), Toast.LENGTH_SHORT).show();
+                finish();
+            } else {
+                Toast.makeText(getApplicationContext(), getString(R.string.probleme_bdd), Toast.LENGTH_SHORT).show();
+            }
+            progressbar.setVisibility(View.GONE);
+        }
     }
 
     /**

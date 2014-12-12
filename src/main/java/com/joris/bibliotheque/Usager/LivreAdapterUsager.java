@@ -14,6 +14,9 @@ import com.joris.bibliotheque.R;
 
 import java.util.ArrayList;
 
+/**
+ * Adaptateur pour afficher les livre dans les listes de l'usager
+ */
 public class LivreAdapterUsager extends BaseAdapter {
 
     private Activity activity;

@@ -26,7 +26,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
- * A simple {@link Fragment} subclass.
+ * Fragment gérant l'ajout ou la modification d'un livre
  */
 public class FragmentAjoutModifLivreGestionnaire extends Fragment {
 
@@ -69,8 +69,8 @@ public class FragmentAjoutModifLivreGestionnaire extends Fragment {
             }
         });
 
-
         bundle = this.getArguments();
+        // bundle null = création d'un livre
         if (bundle != null) {
             int id = bundle.getInt("id_livre", 0);
             livre = Livre.GetLivreList(MainActivity.listeLivre, id);
@@ -93,7 +93,7 @@ public class FragmentAjoutModifLivreGestionnaire extends Fragment {
                                 "description_livre = '" + description + "'" +
                                 " WHERE id_livre = " + livre.getIdLivre();
 
-                        //new RequestTask().execute(SQLrequest);
+                        new RequestTask().execute(SQLrequest);
                     } else {
                         Toast.makeText(getActivity(), getString(R.string.probleme_champs), Toast.LENGTH_SHORT).show();
                     }
@@ -119,6 +119,12 @@ public class FragmentAjoutModifLivreGestionnaire extends Fragment {
     }
 
 
+    /**
+     * Résultat du scan de l'isbn
+     * @param requestCode
+     * @param resultCode
+     * @param intent
+     */
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
         if (requestCode == IntentIntegrator.REQUEST_CODE) {
@@ -132,6 +138,9 @@ public class FragmentAjoutModifLivreGestionnaire extends Fragment {
         }
     }
 
+    /**
+     * RequestTask qui va géré la modification et l'ajout d'un livre toujours en fonction du bundle
+     */
     class RequestTask extends AsyncTask<String, Void, ArrayList<HashMap<String, String>>> {
 
         @Override

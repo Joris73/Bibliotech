@@ -9,6 +9,9 @@ import java.net.HttpURLConnection;
 import java.net.PasswordAuthentication;
 import java.net.URL;
 
+/**
+ * Classe de lecture d'une URL
+ */
 public class URLConnectionReader {
 
     public static String lire(String urlString, String param,
@@ -22,14 +25,7 @@ public class URLConnectionReader {
                     .openConnection();
             connection.setDoOutput(true);
             connection.setDoInput(true);
-            //connection.setInstanceFollowRedirects(false);
-            connection.setRequestMethod("GET");/*
-            connection.setRequestProperty("Content-Type",
-					"application/x-www-form-urlencoded");
-			connection.setRequestProperty("charset", "utf-8");
-			connection.setRequestProperty("Content-Length",
-					"" + Integer.toString(param.getBytes().length));
-			connection.setUseCaches(false);*/
+            connection.setRequestMethod("GET");
 
             Authenticator.setDefault(new Authenticator() {
                 protected PasswordAuthentication getPasswordAuthentication() {
@@ -37,12 +33,6 @@ public class URLConnectionReader {
                             .toCharArray());
                 }
             });
-			/*
-			DataOutputStream wr = new DataOutputStream(
-					connection.getOutputStream());
-			wr.writeBytes(param);
-			wr.flush();
-			wr.close();*/
 
             BufferedReader in = new BufferedReader(new InputStreamReader(
                     connection.getInputStream(), "UTF8"));
@@ -55,8 +45,7 @@ public class URLConnectionReader {
 
             in.close();
         } catch (Exception exception) {
-            Log.i("URLConnectionReader",
-                    "Gros probl�me: " + exception.getMessage());
+            Log.i("URLConnectionReader", "Gros problème: " + exception.getMessage());
         }
         return response.toString();
     }

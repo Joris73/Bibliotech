@@ -10,12 +10,15 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/**
+ * Classe qui fait une demande à l'api puis transforme le json en une liste java
+ * Si le résultat n'est pas du json, alors c'est l'id retour d'une insertion
+ */
 public class Requests {
 
     protected String host;
     protected String user;
     protected String password;
-    public boolean exception;
 
     public Requests(String host, String user, String password) {
         this.host = host;
@@ -25,7 +28,6 @@ public class Requests {
 
     public ArrayList<HashMap<String, String>> executeRequest(String SQLrequest) {
         // Log.i("Requete SQL: ", SQLrequest);
-        exception = false;
         ArrayList<HashMap<String, String>> result = null;
         try {
             String res = URLConnectionReader.lire(this.host + "requete.php",
@@ -41,9 +43,8 @@ public class Requests {
             } catch (Exception e) {
                 try {
                     Log.wtf("Probl�me GSON", res);
-                    exception = true;
-                    res = res.replace(" [[\"","");
-                    res = res.replace("\"]]","");
+                    res = res.replace(" [[\"", "");
+                    res = res.replace("\"]]", "");
                     HashMap<String, String> hash = new HashMap<>();
                     hash.put("id_res", res);
                     result = new ArrayList<>();
@@ -55,17 +56,8 @@ public class Requests {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            exception = true;
         }
         return result;
-    }
-
-    public boolean isException() {
-        return exception;
-    }
-
-    public void setException(boolean exception) {
-        this.exception = exception;
     }
 
 }

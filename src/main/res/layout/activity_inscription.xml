@@ -9,7 +9,7 @@
     <ProgressBar
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/main_progress_bar"
+        android:id="@+id/inscription_progress_bar"
         style="?android:attr/progressBarStyleHorizontal"
         android:indeterminate="true"
         android:visibility="gone" />

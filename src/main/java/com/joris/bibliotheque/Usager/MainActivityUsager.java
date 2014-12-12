@@ -15,7 +15,9 @@ import com.joris.bibliotheque.R;
 
 import java.util.Locale;
 
-
+/**
+ * Activité principal de l'usager qui gère les fragments
+ */
 public class MainActivityUsager extends Activity implements ActionBar.TabListener {
 
     /**
@@ -140,7 +142,6 @@ public class MainActivityUsager extends Activity implements ActionBar.TabListene
 
         @Override
         public int getCount() {
-            // Show 2 total pages.
             return 2;
         }
 
@@ -157,6 +158,9 @@ public class MainActivityUsager extends Activity implements ActionBar.TabListene
         }
     }
 
+    /**
+     * Va mettre à jour les deux listes
+     */
     public static void updateLists() {
         fragment1.updateList();
         fragment2.updateList();

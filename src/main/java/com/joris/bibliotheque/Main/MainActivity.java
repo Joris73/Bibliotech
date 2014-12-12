@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -23,6 +22,9 @@ import com.joris.bibliotheque.Usager.MainActivityUsager;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/**
+ * Activité principal qui gère la connexion et la récupération de toutes la base de livre
+ */
 public class MainActivity extends Activity {
 
     static public ArrayList<Livre> listeLivre;
@@ -34,14 +36,14 @@ public class MainActivity extends Activity {
     private String login;
     private String mdp;
     private boolean isGestionnaire = false;
+    final private String URL_API = "http://78.238.140.91/Bibliotheque/api/";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
-        request = new Requests("http://78.238.140.91/Bibliotheque/api/",
+        request = new Requests(URL_API,
                 "appli", "root");
 
         listeLivre = new ArrayList<>();
@@ -161,6 +163,9 @@ public class MainActivity extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * RequestTask qui s'occupe de la connexion
+     */
     class RequestTaskConnexion extends
             AsyncTask<String, Void, ArrayList<HashMap<String, String>>> {
 
@@ -179,10 +184,10 @@ public class MainActivity extends Activity {
         protected void onPostExecute(ArrayList<HashMap<String, String>> response) {
             if (response != null) {
                 if (!response.isEmpty()) {
-                    Log.wtf("Tooo", response.toString());
                     for (HashMap<String, String> reuser : response) {
-                        userCourant = new Usager(Integer.parseInt(reuser.get("id_usager")),
-                                reuser.get("login_user"), reuser.get("nom_usager"), reuser.get("prenom_usager"));
+                        userCourant = new Usager(Integer.parseInt(reuser.get("id_usager")), reuser.get("login_user"),
+                                reuser.get("nom_usager"), reuser.get("prenom_usager"), reuser.get("email_user"));
+
                         if (Integer.parseInt(reuser.get("type_user")) == 1) {
                             isGestionnaire = false;
                         } else {
@@ -204,6 +209,10 @@ public class MainActivity extends Activity {
         }
     }
 
+    /**
+     * RequestTask qui s'occupe de récupérer tous les livres et s'ils sont emprunté par
+     * le user connecté sont rajouté à sa liste.
+     */
     class RequestTaskAllLivre extends
             AsyncTask<String, Void, ArrayList<HashMap<String, String>>> {
 
@@ -232,6 +241,7 @@ public class MainActivity extends Activity {
                                 relivre.get("auteur_livre"), relivre.get("editeur_livre"),
                                 Integer.parseInt(relivre.get("annee_livre")),
                                 relivre.get("description_livre"), null, idUsager);
+
                         if (idUsager == userCourant.getIdUsager())
                             userCourant.addEmprunt(livre);
                     } else {

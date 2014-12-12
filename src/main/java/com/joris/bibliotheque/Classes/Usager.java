@@ -10,14 +10,16 @@ public class Usager {
     private String loginUsager;
     private String nomUsager;
     private String prenomUsager;
+    private String emailUsager;
     private ArrayList<Livre> listeEmprunt;
 
 
-    public Usager(int idUsager, String loginUsager, String nomUsager, String prenomUsager) {
+    public Usager(int idUsager, String loginUsager, String nomUsager, String prenomUsager, String emailUsager) {
         this.idUsager = idUsager;
         this.loginUsager = loginUsager;
         this.nomUsager = nomUsager;
         this.prenomUsager = prenomUsager;
+        this.emailUsager = emailUsager;
         this.listeEmprunt = new ArrayList<>();
     }
 
@@ -44,6 +46,10 @@ public class Usager {
 
     public String getPrenomUsager() {
         return prenomUsager;
+    }
+
+    public String getEmailUsager() {
+        return emailUsager;
     }
 
     public ArrayList<Livre> getListeEmprunt() {

@@ -4,7 +4,6 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.view.Menu;
@@ -12,6 +11,9 @@ import android.view.MenuItem;
 
 import com.joris.bibliotheque.R;
 
+/**
+ * Activité principal du gestionnaire
+ */
 public class MainActivityGestionnaire extends Activity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
 
@@ -94,6 +96,9 @@ public class MainActivityGestionnaire extends Activity
         }
     }
 
+    /**
+     * On va ici mettre à jour les infos de l'activity à son retour
+     */
     @Override
     public void onResume() {
         super.onResume();

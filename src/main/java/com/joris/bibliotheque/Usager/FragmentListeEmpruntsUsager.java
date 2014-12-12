@@ -14,7 +14,9 @@ import com.joris.bibliotheque.Classes.Livre;
 import com.joris.bibliotheque.Main.MainActivity;
 import com.joris.bibliotheque.R;
 
-
+/**
+ * Fragment qui affiche les livres emprunté par l'utilisateur connecté
+ */
 public class FragmentListeEmpruntsUsager extends Fragment {
 
     private LivreAdapterUsager adapter;
@@ -54,6 +56,10 @@ public class FragmentListeEmpruntsUsager extends Fragment {
         return inflater.inflate(R.layout.fragment_liste_emprunts_usager, container, false);
     }
 
+    /**
+     * Va notifier une modification dans la liste des livre emprunté et mettre à jour la liste
+     * visuelle
+     */
     public void updateList() {
         adapter.notifyDataSetChanged();
     }

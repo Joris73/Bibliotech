@@ -19,6 +19,9 @@ import com.joris.bibliotheque.R;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/**
+ * Affiche toutes les infos d'un livre d'un point de vu gestionnaire
+ */
 public class LivreGestionnaireActivity extends Activity {
 
     private ProgressBar progressbar;
@@ -95,6 +98,9 @@ public class LivreGestionnaireActivity extends Activity {
         }
     }
 
+    /**
+     * RequestTask qui va supprimer le livre dans la base, cad passer son argument deleted à 1
+     */
     class RequestTaskSupprimer extends
             AsyncTask<String, Void, ArrayList<HashMap<String, String>>> {
 
@@ -121,6 +127,9 @@ public class LivreGestionnaireActivity extends Activity {
         }
     }
 
+    /**
+     * Permet de récupérer le nom et le prenom de l'usager qui l'a emprunté
+     */
     class RequestTaskEmprunteur extends
             AsyncTask<String, Void, ArrayList<HashMap<String, String>>> {
 
