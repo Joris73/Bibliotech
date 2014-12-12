@@ -66,6 +66,8 @@ public class MainActivity extends Activity {
 
                     new RequestTaskConnexion().execute(SQLrequest);
 
+                } else {
+                    Toast.makeText(getApplicationContext(), getString(R.string.probleme_champs), Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -80,6 +82,12 @@ public class MainActivity extends Activity {
         setFocusChange();
     }
 
+    /**
+     * Retourne une string en md5
+     *
+     * @param md5
+     * @return
+     */
     public String toMD5(String md5) {
         try {
             java.security.MessageDigest md = java.security.MessageDigest.getInstance("MD5");
@@ -186,7 +194,7 @@ public class MainActivity extends Activity {
                             + "WHERE L.deleted = 0";
 
                     new RequestTaskAllLivre().execute(SQLrequest);
-                }else {
+                } else {
                     Toast.makeText(getApplicationContext(), getString(R.string.probleme_login), Toast.LENGTH_SHORT).show();
                 }
             } else {

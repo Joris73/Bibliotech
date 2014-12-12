@@ -6,6 +6,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.joris.bibliotheque.R;
 
@@ -16,6 +17,8 @@ public class InscriptionActivity extends Activity {
     private EditText edit_login;
     private EditText edit_mdp;
     private EditText edit_email;
+    private String login;
+    private String mdp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,7 +31,59 @@ public class InscriptionActivity extends Activity {
         edit_email = (EditText) findViewById(R.id.edit_email);
         Button button_inscription = (Button) findViewById(R.id.bt_inscription);
 
+        button_inscription.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (recupererValeurs()) {
+
+                    String mdpMD5 = toMD5(mdp);
+
+                    String SQLrequest = "SELECT * "
+                            + "FROM user U "
+                            + "JOIN usager US ON U.id_usager=US.id_usager "
+                            + "WHERE U.login_user = '" + login + "' and pass_login_user = '" + mdpMD5 + "'";
+
+                    //new RequestTaskConnexion().execute(SQLrequest);
+                } else {
+                    Toast.makeText(getApplicationContext(), getString(R.string.probleme_champs), Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
         setFocusChange();
+    }
+
+    /**
+     * Retourne une string en md5
+     * @param md5
+     * @return
+     */
+    public String toMD5(String md5) {
+        try {
+            java.security.MessageDigest md = java.security.MessageDigest.getInstance("MD5");
+            byte[] array = md.digest(md5.getBytes());
+            StringBuffer sb = new StringBuffer();
+            for (int i = 0; i < array.length; ++i) {
+                sb.append(Integer.toHexString((array[i] & 0xFF) | 0x100).substring(1, 3));
+            }
+            return sb.toString();
+        } catch (java.security.NoSuchAlgorithmException e) {
+        }
+        return null;
+    }
+
+    /**
+     * @return vrai si champs valide, faux sinon
+     */
+    private boolean recupererValeurs() {
+        login = edit_login.getText().toString();
+        login = login.replaceAll("'", "''");
+        mdp = edit_login.getText().toString();
+
+        if (login.isEmpty() || mdp.isEmpty())
+            return false;
+
+        return true;
     }
 
     /**
