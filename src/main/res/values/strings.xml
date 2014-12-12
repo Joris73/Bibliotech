@@ -23,6 +23,7 @@
     <string name="edit_annee">Annee</string>
     <string name="bt_emprunt">Emprunter</string>
     <string name="bt_rendre">Rendre</string>
+    <string name="title_activity_options">Options</string>
     <string name="title_activity_main">Connexion</string>
     <string name="title_activity_main_activity_gestionnaire">Gestionnaire</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
@@ -55,10 +56,15 @@
     <string name="message_bienvenue">Bienvenue dans la Bibliotheque\nVeuillez-vous connecter</string>
     <string name="message_inscription">Pas encore inscrit ?</string>
     <string name="edit_login">Login</string>
-    <string name="edit_mdp">Mots de passe</string>
+    <string name="edit_mdp">Mot de passe</string>
     <string name="edit_email">Email</string>
     <string name="edit_nom">Nom</string>
     <string name="edit_prenom">Prenom</string>
     <string name="title_activity_inscription">Inscription</string>
+    <string name="is_emprunter">Emprunter</string>
+    <string name="not_emprunter">Libre</string>
+    <string name="default_url">78.238.140.91</string>
+    <string name="dialog_url">Editer l\'url du serveur"</string>
+    <string name="title_url">URL du serveur</string>
 
 </resources>

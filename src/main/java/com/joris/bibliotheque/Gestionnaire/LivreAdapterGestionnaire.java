@@ -53,11 +53,18 @@ public class LivreAdapterGestionnaire extends BaseAdapter {
         TextView name = (TextView) vi.findViewById(R.id.list_livre_gestion_name);
         TextView auteur = (TextView) vi.findViewById(R.id.list_livre_gestion_auteur);
         TextView annee = (TextView) vi.findViewById(R.id.list_livre_gestion_annee);
+        TextView emprunter = (TextView) vi.findViewById(R.id.list_livre_gestion_emprunter);
+
 
         // On affiche le nom du livre
         name.setText(livre.getTitre());
         auteur.setText(livre.getAuteur());
         annee.setText(Integer.toString(livre.getAnnee()));
+        if (livre.isEmprunte()) {
+            emprunter.setText(activity.getString(R.string.is_emprunter));
+        } else {
+            emprunter.setText(activity.getString(R.string.not_emprunter));
+        }
 
         vi.setTag(livre);
 

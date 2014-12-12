@@ -7,7 +7,6 @@ import android.app.FragmentManager;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.view.Menu;
-import android.view.MenuItem;
 
 import com.joris.bibliotheque.R;
 
@@ -47,7 +46,6 @@ public class MainActivityGestionnaire extends Activity
 
     @Override
     public void onNavigationDrawerItemSelected(int position) {
-        // update the main content by replacing fragments
         FragmentManager fragmentManager = getFragmentManager();
         switch (position) {
             case 0:
@@ -72,28 +70,18 @@ public class MainActivityGestionnaire extends Activity
         actionBar.setTitle(mTitle);
     }
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         if (!mNavigationDrawerFragment.isDrawerOpen()) {
-            // Only show items in the action bar relevant to this screen
-            // if the drawer is not showing. Otherwise, let the drawer
-            // decide what to show in the action bar.
-            getMenuInflater().inflate(R.menu.main_activity_gestionnaire, menu);
             restoreActionBar();
             return true;
         }
         return super.onCreateOptionsMenu(menu);
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_settings:
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
+    public void goToMain() {
+        onNavigationDrawerItemSelected(0);
+        getActionBar().setTitle(mTitle);
     }
 
     /**

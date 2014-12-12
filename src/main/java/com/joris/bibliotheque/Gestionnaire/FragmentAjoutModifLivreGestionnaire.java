@@ -2,7 +2,6 @@ package com.joris.bibliotheque.Gestionnaire;
 
 
 import android.app.Fragment;
-import android.app.FragmentManager;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -121,6 +120,7 @@ public class FragmentAjoutModifLivreGestionnaire extends Fragment {
 
     /**
      * Résultat du scan de l'isbn
+     *
      * @param requestCode
      * @param resultCode
      * @param intent
@@ -172,10 +172,7 @@ public class FragmentAjoutModifLivreGestionnaire extends Fragment {
                             Integer.parseInt(edit_annee.getText().toString()), edit_description.getText().toString(), null, null));
                     Toast.makeText(getActivity(), getString(R.string.add_livre), Toast.LENGTH_SHORT).show();
                 }
-                FragmentManager fragmentManager = getFragmentManager();
-                fragmentManager.beginTransaction()
-                        .replace(R.id.container, new FragmentListeLivresGestionnaire())
-                        .commit();
+                ((MainActivityGestionnaire) getActivity()).goToMain();
             } else {
                 Toast.makeText(getActivity(), getString(R.string.probleme_bdd), Toast.LENGTH_SHORT).show();
             }

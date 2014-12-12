@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory
+        android:title="Paramètre serveur">
+
+        <EditTextPreference
+            android:dialogTitle="@string/dialog_url"
+            android:key="url_serveur"
+            android:defaultValue="@string/default_url"
+            android:title="@string/title_url"/>
+
+    </PreferenceCategory>
+</PreferenceScreen>

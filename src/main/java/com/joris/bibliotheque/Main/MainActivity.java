@@ -2,8 +2,10 @@ package com.joris.bibliotheque.Main;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -36,14 +38,18 @@ public class MainActivity extends Activity {
     private String login;
     private String mdp;
     private boolean isGestionnaire = false;
-    final private String URL_API = "http://78.238.140.91/Bibliotheque/api/";
+    private SharedPreferences prefs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        request = new Requests(URL_API,
+        prefs = PreferenceManager
+                .getDefaultSharedPreferences(this);
+        String url_serveur = prefs.getString("url_serveur", "0");
+
+        request = new Requests("http://" + url_serveur + "/Bibliotheque/api/",
                 "appli", "root");
 
         listeLivre = new ArrayList<>();
@@ -82,6 +88,17 @@ public class MainActivity extends Activity {
         });
 
         setFocusChange();
+    }
+
+    /**
+     * Si les paramètres de l'application on changé entre temps, on en prend compte.
+     */
+    @Override
+    public void onResume() {
+        super.onResume();
+        String url_serveur = prefs.getString("url_serveur", "0");
+        request = new Requests("http://" + url_serveur + "/Bibliotheque/api/",
+                "appli", "root");
     }
 
     /**
@@ -154,13 +171,14 @@ public class MainActivity extends Activity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-
-        if (id == R.id.action_settings) {
-            return true;
+        switch (item.getItemId()) {
+            case R.id.action_settings:
+                Intent intent = new Intent(this, OptionsActivity.class);
+                startActivity(intent);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
-
-        return super.onOptionsItemSelected(item);
     }
 
     /**
@@ -210,8 +228,8 @@ public class MainActivity extends Activity {
     }
 
     /**
-     * RequestTask qui s'occupe de récupérer tous les livres et s'ils sont emprunté par
-     * le user connecté sont rajouté à sa liste.
+     * RequestTask qui s'occupe de récupérer tous les livres et s'ils sont emprunté par le user
+     * connecté sont rajouté à sa liste.
      */
     class RequestTaskAllLivre extends
             AsyncTask<String, Void, ArrayList<HashMap<String, String>>> {
