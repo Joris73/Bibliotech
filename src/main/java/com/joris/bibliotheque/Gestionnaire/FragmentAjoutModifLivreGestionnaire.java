@@ -84,6 +84,7 @@ public class FragmentAjoutModifLivreGestionnaire extends Fragment {
                 @Override
                 public void onClick(View v) {
                     if (recupererValeurs()) {
+                        bouton_add_mod.setVisibility(View.GONE);
                         String SQLrequest = "UPDATE livre SET ISBN = '" + isbn + "', " +
                                 "titre_livre = '" + titre + "', " +
                                 "auteur_livre = '" + auteur + "', " +
@@ -103,6 +104,7 @@ public class FragmentAjoutModifLivreGestionnaire extends Fragment {
                 @Override
                 public void onClick(View v) {
                     if (recupererValeurs()) {
+                        bouton_add_mod.setVisibility(View.GONE);
                         String SQLrequest = "INSERT INTO livre (ISBN, titre_livre, auteur_livre, " +
                                 "editeur_livre, annee_livre, description_livre)" +
                                 " VALUES ('" + isbn + "', '" + titre + "', '" + auteur + "', '" + editeur +
@@ -158,12 +160,12 @@ public class FragmentAjoutModifLivreGestionnaire extends Fragment {
         protected void onPostExecute(ArrayList<HashMap<String, String>> response) {
             if (response != null) {
                 if (bundle != null) {
-                    livre.setTitre(titre);
-                    livre.setISBN(isbn);
-                    livre.setAuteur(auteur);
-                    livre.setEditeur(editeur);
-                    livre.setDescription(description);
-                    livre.setAnnee(annee);
+                    livre.setTitre(edit_titre.getText().toString());
+                    livre.setISBN(Long.parseLong(edit_isbn.getText().toString()));
+                    livre.setAuteur(edit_auteur.getText().toString());
+                    livre.setEditeur(edit_editeur.getText().toString());
+                    livre.setDescription(edit_description.getText().toString());
+                    livre.setAnnee(Integer.parseInt(edit_annee.getText().toString()));
                     Toast.makeText(getActivity(), getString(R.string.modif_livre), Toast.LENGTH_SHORT).show();
                 } else {
                     MainActivity.listeLivre.add(new Livre(Integer.parseInt(response.get(0).get("id_res")),
@@ -174,6 +176,7 @@ public class FragmentAjoutModifLivreGestionnaire extends Fragment {
                 }
                 ((MainActivityGestionnaire) getActivity()).goToMain();
             } else {
+                bouton_add_mod.setVisibility(View.VISIBLE);
                 Toast.makeText(getActivity(), getString(R.string.probleme_bdd), Toast.LENGTH_SHORT).show();
             }
             progressbar.setVisibility(View.GONE);
