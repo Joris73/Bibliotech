@@ -1,14 +1,19 @@
 package com.joris.bibliotheque.Main;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.InputType;
 import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.joris.bibliotheque.R;
@@ -46,39 +51,57 @@ public class InscriptionActivity extends Activity {
         edit_email = (EditText) findViewById(R.id.edit_email);
         button_inscription = (Button) findViewById(R.id.bt_inscription);
 
+
+        edit_email.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                boolean handled = false;
+                if (actionId == EditorInfo.IME_ACTION_SEND) {
+                    hideSoftKeyBoardOnTabClicked(v);
+                    inscription();
+                    handled = true;
+                }
+                return handled;
+            }
+        });
+
         button_inscription.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (recupererValeurs()) {
-                    if (isValidEmailAddress(email)) {
-                        button_inscription.setVisibility(View.GONE);
-                        String SQLrequest = "INSERT INTO usager (nom_usager, prenom_usager)" +
-                                " VALUES ('" + nom + "', '" + prenom + "' )";
-
-                        new RequestTaskInscriptionUsager().execute(SQLrequest);
-                    } else {
-                        Toast.makeText(getApplicationContext(), getString(R.string.probleme_email), Toast.LENGTH_SHORT).show();
-                    }
-                } else {
-                    Toast.makeText(getApplicationContext(), getString(R.string.probleme_champs), Toast.LENGTH_SHORT).show();
-                }
             }
         });
 
         setFocusChange();
     }
 
+    private void inscription() {
+        if (recupererValeurs()) {
+            if (isValidEmailAddress(email)) {
+                button_inscription.setVisibility(View.GONE);
+                String SQLrequest = "INSERT INTO usager (nom_usager, prenom_usager)" +
+                        " VALUES ('" + nom + "', '" + prenom + "' )";
+
+                new RequestTaskInscriptionUsager().execute(SQLrequest);
+            } else {
+                Toast.makeText(getApplicationContext(), getString(R.string.probleme_email), Toast.LENGTH_SHORT).show();
+            }
+        } else {
+            Toast.makeText(getApplicationContext(), getString(R.string.probleme_champs), Toast.LENGTH_SHORT).show();
+        }
+    }
+
     /**
      * Retourne une string en md5
      *
      * @param md5
-     * @return
+     *         String qu'on veut son MD5
+     * @return Le MD5 du parametre md5
      */
-    public String toMD5(String md5) {
+    private String toMD5(String md5) {
         try {
             java.security.MessageDigest md = java.security.MessageDigest.getInstance("MD5");
             byte[] array = md.digest(md5.getBytes());
-            StringBuffer sb = new StringBuffer();
+            StringBuilder sb = new StringBuilder();
             for (int i = 0; i < array.length; ++i) {
                 sb.append(Integer.toHexString((array[i] & 0xFF) | 0x100).substring(1, 3));
             }
@@ -113,13 +136,27 @@ public class InscriptionActivity extends Activity {
      * Test si une string est bien une adresse email
      *
      * @param email
-     * @return
+     *         L'email à tester
+     * @return boolean si c'est un email valide ou non
      */
     public boolean isValidEmailAddress(String email) {
         String ePattern = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$";
         java.util.regex.Pattern p = java.util.regex.Pattern.compile(ePattern);
         java.util.regex.Matcher m = p.matcher(email);
         return m.matches();
+    }
+
+    /**
+     * Ferme le clavier quand la View v est cliqué
+     *
+     * @param v
+     *         view qu'on vient de cliquer
+     */
+    private void hideSoftKeyBoardOnTabClicked(View v) {
+        if (v != null) {
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(v.getApplicationWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+        }
     }
 
     /**

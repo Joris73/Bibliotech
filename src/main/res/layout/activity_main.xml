@@ -44,7 +44,8 @@
         android:singleLine="true"
         android:inputType="text"
         android:gravity="center"
-        android:width="200dp"/>
+        android:width="200dp"
+        android:imeOptions="actionSend"/>
 
     <Button
         android:layout_width="match_parent"

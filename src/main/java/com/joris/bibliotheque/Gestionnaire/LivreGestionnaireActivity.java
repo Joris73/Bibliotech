@@ -2,6 +2,7 @@ package com.joris.bibliotheque.Gestionnaire;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -29,11 +30,13 @@ public class LivreGestionnaireActivity extends Activity {
     private Button buttonSupprimer;
     private TextView emprunter;
     private Livre livre;
+    private Context me;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_livre_gestionnaire);
+        me = this;
         Intent intent = getIntent();
         if (intent != null) {
             int id = intent.getIntExtra("idLivre", 0);
@@ -77,7 +80,7 @@ public class LivreGestionnaireActivity extends Activity {
             buttonSupprimer.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(getBaseContext());
+                    AlertDialog.Builder builder = new AlertDialog.Builder(me);
                     builder.setMessage(getString(R.string.message_dialog))
                             .setCancelable(true)
                             .setPositiveButton(getString(R.string.yes),

@@ -67,7 +67,8 @@
         android:id="@+id/edit_email"
         android:singleLine="true"
         android:inputType="textEmailAddress"
-        android:gravity="center" />
+        android:gravity="center"
+        android:imeOptions="actionSend" />
 
     <Button
         android:layout_width="wrap_content"

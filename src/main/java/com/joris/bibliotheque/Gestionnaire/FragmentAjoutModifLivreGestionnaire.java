@@ -122,10 +122,11 @@ public class FragmentAjoutModifLivreGestionnaire extends Fragment {
 
     /**
      * Résultat du scan de l'isbn
+     * Methode appelé automatiquement
      *
-     * @param requestCode
-     * @param resultCode
-     * @param intent
+     * @param requestCode Code de la requette
+     * @param resultCode Le code résultat
+     * @param intent L'intent qui renvoie ce resultat
      */
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {

@@ -9,13 +9,16 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.InputType;
 import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.joris.bibliotheque.Classes.Livre;
@@ -65,25 +68,23 @@ public class MainActivity extends Activity {
         button_connexion = (Button) findViewById(R.id.bt_connexion);
         button_inscription = (Button) findViewById(R.id.bt_main_inscription);
 
+        edit_mdp.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                boolean handled = false;
+                if (actionId == EditorInfo.IME_ACTION_SEND) {
+                    hideSoftKeyBoardOnTabClicked(v);
+                    connexion();
+                    handled = true;
+                }
+                return handled;
+            }
+        });
+
         button_connexion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (recupererValeurs()) {
-                    hideSoftKeyBoardOnTabClicked(v);
-                    button_connexion.setVisibility(View.GONE);
-                    button_inscription.setVisibility(View.GONE);
-                    String mdpMD5 = toMD5(mdp);
-
-                    String SQLrequest = "SELECT * "
-                            + "FROM user U "
-                            + "JOIN usager US ON U.id_usager=US.id_usager "
-                            + "WHERE U.login_user = '" + login + "' and pass_login_user = '" + mdpMD5 + "'";
-
-                    new RequestTaskConnexion().execute(SQLrequest);
-
-                } else {
-                    Toast.makeText(getApplicationContext(), getString(R.string.probleme_champs), Toast.LENGTH_SHORT).show();
-                }
+                connexion();
             }
         });
         button_inscription.setOnClickListener(new View.OnClickListener() {
@@ -96,6 +97,25 @@ public class MainActivity extends Activity {
 
         setFocusChange();
     }
+
+    private void connexion() {
+        if (recupererValeurs()) {
+            button_connexion.setVisibility(View.GONE);
+            button_inscription.setVisibility(View.GONE);
+            String mdpMD5 = toMD5(mdp);
+
+            String SQLrequest = "SELECT * "
+                    + "FROM user U "
+                    + "JOIN usager US ON U.id_usager=US.id_usager "
+                    + "WHERE U.login_user = '" + login + "' and pass_login_user = '" + mdpMD5 + "'";
+
+            new RequestTaskConnexion().execute(SQLrequest);
+
+        } else {
+            Toast.makeText(getApplicationContext(), getString(R.string.probleme_champs), Toast.LENGTH_SHORT).show();
+        }
+    }
+
 
     /**
      * Si les paramètres de l'application on changé entre temps, on en prend compte.
@@ -112,6 +132,7 @@ public class MainActivity extends Activity {
      * Ferme le clavier quand la View v est cliqué
      *
      * @param v
+     *         view qu'on vient de cliquer
      */
     private void hideSoftKeyBoardOnTabClicked(View v) {
         if (v != null) {
@@ -124,15 +145,16 @@ public class MainActivity extends Activity {
      * Retourne une string en md5
      *
      * @param md5
-     * @return
+     *         String qu'on veut son MD5
+     * @return Le MD5 du parametre md5
      */
-    public String toMD5(String md5) {
+    private String toMD5(String md5) {
         try {
             java.security.MessageDigest md = java.security.MessageDigest.getInstance("MD5");
             byte[] array = md.digest(md5.getBytes());
             StringBuffer sb = new StringBuffer();
-            for (int i = 0; i < array.length; ++i) {
-                sb.append(Integer.toHexString((array[i] & 0xFF) | 0x100).substring(1, 3));
+            for (byte anArray : array) {
+                sb.append(Integer.toHexString((anArray & 0xFF) | 0x100).substring(1, 3));
             }
             return sb.toString();
         } catch (java.security.NoSuchAlgorithmException e) {

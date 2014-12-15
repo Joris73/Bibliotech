@@ -17,7 +17,7 @@ public class URLConnectionReader {
     public static String lire(String urlString, String param,
                               final String user, final String password)
             throws Exception {
-        StringBuffer response = new StringBuffer();
+        StringBuilder response = new StringBuilder();
         try {
             URL url = new URL(urlString + "?" + param);
             Log.i("Requete", url.toString());
