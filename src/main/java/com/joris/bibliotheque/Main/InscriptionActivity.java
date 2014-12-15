@@ -3,6 +3,7 @@ package com.joris.bibliotheque.Main;
 import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.InputType;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
@@ -31,6 +32,7 @@ public class InscriptionActivity extends Activity {
     private String mdp;
     private String email;
     private ProgressBar progressbar;
+    private Button button_inscription;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,13 +44,14 @@ public class InscriptionActivity extends Activity {
         edit_login = (EditText) findViewById(R.id.edit_login);
         edit_mdp = (EditText) findViewById(R.id.edit_mdp);
         edit_email = (EditText) findViewById(R.id.edit_email);
-        Button button_inscription = (Button) findViewById(R.id.bt_inscription);
+        button_inscription = (Button) findViewById(R.id.bt_inscription);
 
         button_inscription.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (recupererValeurs()) {
                     if (isValidEmailAddress(email)) {
+                        button_inscription.setVisibility(View.GONE);
                         String SQLrequest = "INSERT INTO usager (nom_usager, prenom_usager)" +
                                 " VALUES ('" + nom + "', '" + prenom + "' )";
 
@@ -96,7 +99,7 @@ public class InscriptionActivity extends Activity {
         prenom = prenom.replaceAll("'", "''");
         login = edit_login.getText().toString();
         login = login.replaceAll("'", "''");
-        mdp = edit_login.getText().toString();
+        mdp = edit_mdp.getText().toString();
         email = edit_email.getText().toString();
         email = email.replaceAll("'", "''");
 
@@ -149,6 +152,7 @@ public class InscriptionActivity extends Activity {
                 new RequestTaskInscriptionUser().execute(SQLrequest);
 
             } else {
+                button_inscription.setVisibility(View.VISIBLE);
                 Toast.makeText(getApplicationContext(), getString(R.string.probleme_bdd), Toast.LENGTH_SHORT).show();
             }
             progressbar.setVisibility(View.GONE);
@@ -225,8 +229,10 @@ public class InscriptionActivity extends Activity {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (!hasFocus && TextUtils.isEmpty(edit_mdp.getText().toString())) {
+                    edit_mdp.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_NORMAL);
                     edit_mdp.setText(getString(R.string.edit_mdp));
                 } else if (hasFocus && edit_mdp.getText().toString().equals(getString(R.string.edit_mdp))) {
+                    edit_mdp.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
                     edit_mdp.setText("");
                 }
             }

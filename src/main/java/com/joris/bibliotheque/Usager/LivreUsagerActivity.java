@@ -24,7 +24,7 @@ import java.util.HashMap;
 public class LivreUsagerActivity extends Activity {
 
     private ProgressBar progressbar;
-    private Button button;
+    private Button buttonEmpRend;
     private Livre livre;
 
     @Override
@@ -42,7 +42,7 @@ public class LivreUsagerActivity extends Activity {
             TextView editeur = (TextView) findViewById(R.id.tv_editeur_usager);
             TextView isbn = (TextView) findViewById(R.id.tv_isbn_usager);
             TextView description = (TextView) findViewById(R.id.tv_description_usager);
-            button = (Button) findViewById(R.id.btEmpRend);
+            buttonEmpRend = (Button) findViewById(R.id.btEmpRend);
 
             titre.setText(livre.getTitre());
             annee.setText(Integer.toString(livre.getAnnee()));
@@ -53,10 +53,11 @@ public class LivreUsagerActivity extends Activity {
 
             if (livre.isEmprunte()) {
                 if (livre.getIdEmpruntePar() == MainActivity.userCourant.getIdUsager()) {
-                    button.setText(getString(R.string.bt_rendre));
-                    button.setOnClickListener(new View.OnClickListener() {
+                    buttonEmpRend.setText(getString(R.string.bt_rendre));
+                    buttonEmpRend.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
+                            buttonEmpRend.setVisibility(View.GONE);
 
                             String SQLrequest = "DELETE FROM emprunt WHERE id_usager_emprunt = " +
                                     MainActivity.userCourant.getIdUsager() + " and id_livre_emprunt = " +
@@ -66,13 +67,14 @@ public class LivreUsagerActivity extends Activity {
                         }
                     });
                 } else {
-                    button.setVisibility(View.INVISIBLE);
+                    buttonEmpRend.setVisibility(View.INVISIBLE);
                 }
             } else {
-                button.setText(getString(R.string.bt_emprunt));
-                button.setOnClickListener(new View.OnClickListener() {
+                buttonEmpRend.setText(getString(R.string.bt_emprunt));
+                buttonEmpRend.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        buttonEmpRend.setVisibility(View.GONE);
 
                         String SQLrequest = "INSERT INTO emprunt (id_usager_emprunt, id_livre_emprunt)" +
                                 " VALUES ('" + MainActivity.userCourant.getIdUsager() + "', '" + livre.getIdLivre() + "' )";
@@ -108,10 +110,11 @@ public class LivreUsagerActivity extends Activity {
         protected void onPostExecute(ArrayList<HashMap<String, String>> response) {
             if (response != null) {
                 MainActivity.userCourant.addEmprunt(livre);
-                button.setVisibility(View.INVISIBLE);
+                buttonEmpRend.setVisibility(View.INVISIBLE);
                 MainActivityUsager.updateLists();
                 finish();
             } else {
+                buttonEmpRend.setVisibility(View.VISIBLE);
                 Toast.makeText(getApplicationContext(), getString(R.string.probleme_bdd), Toast.LENGTH_SHORT).show();
             }
             progressbar.setVisibility(View.GONE);
@@ -142,10 +145,11 @@ public class LivreUsagerActivity extends Activity {
         protected void onPostExecute(ArrayList<HashMap<String, String>> response) {
             if (response != null) {
                 MainActivity.userCourant.rendre(livre);
-                button.setVisibility(View.INVISIBLE);
+                buttonEmpRend.setVisibility(View.INVISIBLE);
                 MainActivityUsager.updateLists();
                 finish();
             } else {
+                buttonEmpRend.setVisibility(View.VISIBLE);
                 Toast.makeText(getApplicationContext(), getString(R.string.probleme_bdd), Toast.LENGTH_SHORT).show();
             }
             progressbar.setVisibility(View.GONE);

@@ -119,6 +119,7 @@ public class LivreGestionnaireActivity extends Activity {
         protected void onPostExecute(ArrayList<HashMap<String, String>> response) {
             if (response != null) {
                 MainActivity.listeLivre.remove(livre);
+                Toast.makeText(getApplicationContext(), getString(R.string.supp_livre), Toast.LENGTH_SHORT).show();
                 finish();
             } else {
                 Toast.makeText(getApplicationContext(), getString(R.string.probleme_bdd), Toast.LENGTH_SHORT).show();

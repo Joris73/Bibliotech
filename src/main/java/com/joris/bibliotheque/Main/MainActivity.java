@@ -1,15 +1,18 @@
 package com.joris.bibliotheque.Main;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.text.InputType;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -39,6 +42,8 @@ public class MainActivity extends Activity {
     private String mdp;
     private boolean isGestionnaire = false;
     private SharedPreferences prefs;
+    private Button button_connexion;
+    private Button button_inscription;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +52,7 @@ public class MainActivity extends Activity {
 
         prefs = PreferenceManager
                 .getDefaultSharedPreferences(this);
-        String url_serveur = prefs.getString("url_serveur", "0");
+        String url_serveur = prefs.getString("url_serveur", getString(R.string.default_url));
 
         request = new Requests("http://" + url_serveur + "/Bibliotheque/api/",
                 "appli", "root");
@@ -57,14 +62,16 @@ public class MainActivity extends Activity {
         progressbar = (ProgressBar) findViewById(R.id.main_progress_bar);
         edit_login = (EditText) findViewById(R.id.edit_connect_login);
         edit_mdp = (EditText) findViewById(R.id.edit_connect_mdp);
-        Button button_connexion = (Button) findViewById(R.id.bt_connexion);
-        Button button_inscription = (Button) findViewById(R.id.bt_main_inscription);
+        button_connexion = (Button) findViewById(R.id.bt_connexion);
+        button_inscription = (Button) findViewById(R.id.bt_main_inscription);
 
         button_connexion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (recupererValeurs()) {
-
+                    hideSoftKeyBoardOnTabClicked(v);
+                    button_connexion.setVisibility(View.GONE);
+                    button_inscription.setVisibility(View.GONE);
                     String mdpMD5 = toMD5(mdp);
 
                     String SQLrequest = "SELECT * "
@@ -96,9 +103,21 @@ public class MainActivity extends Activity {
     @Override
     public void onResume() {
         super.onResume();
-        String url_serveur = prefs.getString("url_serveur", "0");
+        String url_serveur = prefs.getString("url_serveur", getString(R.string.default_url));
         request = new Requests("http://" + url_serveur + "/Bibliotheque/api/",
                 "appli", "root");
+    }
+
+    /**
+     * Ferme le clavier quand la View v est cliqué
+     *
+     * @param v
+     */
+    private void hideSoftKeyBoardOnTabClicked(View v) {
+        if (v != null) {
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(v.getApplicationWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+        }
     }
 
     /**
@@ -127,7 +146,7 @@ public class MainActivity extends Activity {
     private boolean recupererValeurs() {
         login = edit_login.getText().toString();
         login = login.replaceAll("'", "''");
-        mdp = edit_login.getText().toString();
+        mdp = edit_mdp.getText().toString();
 
         if (login.isEmpty() || mdp.isEmpty())
             return false;
@@ -154,31 +173,14 @@ public class MainActivity extends Activity {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (!hasFocus && TextUtils.isEmpty(edit_mdp.getText().toString())) {
+                    edit_mdp.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_NORMAL);
                     edit_mdp.setText(getString(R.string.edit_mdp));
                 } else if (hasFocus && edit_mdp.getText().toString().equals(getString(R.string.edit_mdp))) {
+                    edit_mdp.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
                     edit_mdp.setText("");
                 }
             }
         });
-    }
-
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_settings:
-                Intent intent = new Intent(this, OptionsActivity.class);
-                startActivity(intent);
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
     }
 
     /**
@@ -218,12 +220,17 @@ public class MainActivity extends Activity {
 
                     new RequestTaskAllLivre().execute(SQLrequest);
                 } else {
+                    button_connexion.setVisibility(View.VISIBLE);
+                    button_inscription.setVisibility(View.VISIBLE);
+                    progressbar.setVisibility(View.GONE);
                     Toast.makeText(getApplicationContext(), getString(R.string.probleme_login), Toast.LENGTH_SHORT).show();
                 }
             } else {
+                button_connexion.setVisibility(View.VISIBLE);
+                button_inscription.setVisibility(View.VISIBLE);
+                progressbar.setVisibility(View.GONE);
                 Toast.makeText(getApplicationContext(), getString(R.string.probleme_bdd), Toast.LENGTH_SHORT).show();
             }
-            progressbar.setVisibility(View.GONE);
         }
     }
 
@@ -280,10 +287,33 @@ public class MainActivity extends Activity {
                     startActivity(intent);
                 }
 
+                button_connexion.setVisibility(View.VISIBLE);
+                button_inscription.setVisibility(View.VISIBLE);
+
             } else {
+                button_connexion.setVisibility(View.VISIBLE);
+                button_inscription.setVisibility(View.VISIBLE);
                 Toast.makeText(getApplicationContext(), getString(R.string.probleme_bdd), Toast.LENGTH_SHORT).show();
             }
             progressbar.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_settings:
+                Intent intent = new Intent(this, OptionsActivity.class);
+                startActivity(intent);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
     }
 }
