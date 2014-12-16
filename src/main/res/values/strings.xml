@@ -44,6 +44,7 @@
     <string name="zxing_yes">Oui</string>
     <string name="zxing_no">Non</string>
     <string name="probleme_login">Login ou mot de passe incorrect</string>
+    <string name="probleme_login_use">Login déjà utilisé</string>
     <string name="probleme_bdd">Problème avec la connexion</string>
     <string name="probleme_isbn">Mauvais format ISBN</string>
     <string name="probleme_date">Mauvais format de date</string>
@@ -62,7 +63,7 @@
     <string name="title_activity_inscription">Inscription</string>
     <string name="is_emprunter">Emprunter</string>
     <string name="not_emprunter">Libre</string>
-    <string name="default_url">78.238.140.91</string>
+    <string name="default_url">195.154.75.140</string>
     <string name="dialog_url">Editer l\'url du serveur"</string>
     <string name="title_url">URL du serveur</string>
 

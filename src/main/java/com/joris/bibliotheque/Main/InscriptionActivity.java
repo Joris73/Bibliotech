@@ -78,11 +78,11 @@ public class InscriptionActivity extends Activity {
     private void inscription() {
         if (recupererValeurs()) {
             if (isValidEmailAddress(email)) {
-                button_inscription.setVisibility(View.GONE);
-                String SQLrequest = "INSERT INTO usager (nom_usager, prenom_usager)" +
-                        " VALUES ('" + nom + "', '" + prenom + "' )";
-
-                new RequestTaskInscriptionUsager().execute(SQLrequest);
+                String SQLrequest = "SELECT * "
+                        + "FROM user U "
+                        + "JOIN usager US ON U.id_usager=US.id_usager "
+                        + "WHERE U.login_user = '" + login + "'";
+                new RequestTaskTestLogin().execute(SQLrequest);
             } else {
                 Toast.makeText(getApplicationContext(), getString(R.string.probleme_email), Toast.LENGTH_SHORT).show();
             }
@@ -94,8 +94,7 @@ public class InscriptionActivity extends Activity {
     /**
      * Retourne une string en md5
      *
-     * @param md5
-     *         String qu'on veut son MD5
+     * @param md5 String qu'on veut son MD5
      * @return Le MD5 du parametre md5
      */
     private String toMD5(String md5) {
@@ -136,8 +135,7 @@ public class InscriptionActivity extends Activity {
     /**
      * Test si une string est bien une adresse email
      *
-     * @param email
-     *         L'email à tester
+     * @param email L'email à tester
      * @return boolean si c'est un email valide ou non
      */
     public boolean isValidEmailAddress(String email) {
@@ -150,13 +148,48 @@ public class InscriptionActivity extends Activity {
     /**
      * Ferme le clavier quand la View v est cliqué
      *
-     * @param v
-     *         view qu'on vient de cliquer
+     * @param v view qu'on vient de cliquer
      */
     private void hideSoftKeyBoardOnTabClicked(View v) {
         if (v != null) {
             InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(v.getApplicationWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+        }
+    }
+
+    class RequestTaskTestLogin extends
+            AsyncTask<String, Void, ArrayList<HashMap<String, String>>> {
+
+        @Override
+        protected ArrayList<HashMap<String, String>> doInBackground(
+                String... SQLrequest) {
+            return MainActivity.request.executeRequest(SQLrequest[0]);
+        }
+
+        @Override
+        protected void onPreExecute() {
+            button_inscription.setVisibility(View.GONE);
+            progressbar.setVisibility(View.VISIBLE);
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<HashMap<String, String>> response) {
+            if (response != null) {
+                if (response.isEmpty()) {
+                    String SQLrequest = "INSERT INTO usager (nom_usager, prenom_usager)" +
+                            " VALUES ('" + nom + "', '" + prenom + "' )";
+
+                    new RequestTaskInscriptionUsager().execute(SQLrequest);
+                } else {
+                    button_inscription.setVisibility(View.VISIBLE);
+                    progressbar.setVisibility(View.GONE);
+                    Toast.makeText(getApplicationContext(), getString(R.string.probleme_login_use), Toast.LENGTH_SHORT).show();
+                }
+            } else {
+                button_inscription.setVisibility(View.VISIBLE);
+                progressbar.setVisibility(View.GONE);
+                Toast.makeText(getApplicationContext(), getString(R.string.probleme_bdd), Toast.LENGTH_SHORT).show();
+            }
         }
     }
 
@@ -191,9 +224,9 @@ public class InscriptionActivity extends Activity {
 
             } else {
                 button_inscription.setVisibility(View.VISIBLE);
+                progressbar.setVisibility(View.GONE);
                 Toast.makeText(getApplicationContext(), getString(R.string.probleme_bdd), Toast.LENGTH_SHORT).show();
             }
-            progressbar.setVisibility(View.GONE);
         }
     }
 
