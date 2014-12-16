@@ -68,6 +68,7 @@ public class InscriptionActivity extends Activity {
         button_inscription.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                inscription();
             }
         });
 
